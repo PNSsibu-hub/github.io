@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driver Itinerary: Sibu - Mukah - Rumah Jukie</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f5ff;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            cursor: text;
+        }
+        .day-section {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
+        .date-header {
+            background-color: #3498db;
+            color: white;
+            padding: 10px;
+            margin: -15px -15px 15px -15px;
+            border-radius: 5px 5px 0 0;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .schedule-table th, .schedule-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .schedule-table th {
+            background-color: #e6f2ff;
+        }
+        .time-column {
+            width: 20%;
+        }
+        .action-column {
+            width: 20%;
+        }
+        .location-column {
+            width: 60%;
+        }
+        .notes {
+            margin-top: 20px;
+            font-style: italic;
+            color: #666;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .table-controls {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+        .table-controls button {
+            font-size: 14px;
+            padding: 5px 10px;
+            margin-left: 5px;
+        }
+        .add-row {
+            background-color: #2ecc71;
+        }
+        .add-row:hover {
+            background-color: #27ae60;
+        }
+        .delete-row {
+            background-color: #e74c3c;
+        }
+        .delete-row:hover {
+            background-color: #c0392b;
+        }
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+            }
+            button, .table-controls {
+                display: none;
+            }
+            .day-section {
+                background-color: white;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 contenteditable="true">Driver Itinerary: Sibu - Mukah - Rumah Jukie</h1>
+        
+        <div class="day-section">
+            <div class="date-header">
+                <span>Date: 31 Oct 2025 (Friday)</span>
+            </div>
+            <div class="table-controls">
+                <button class="add-row" onclick="addRow(this)">Add Row</button>
+                <button class="delete-row" onclick="deleteRow(this)">Delete Last Row</button>
+            </div>
+            <table class="schedule-table" id="day1-table">
+                <thead>
+                    <tr>
+                        <th class="time-column">Time</th>
+                        <th class="action-column">Action</th>
+                        <th class="location-column">Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true">07:30</td>
+                        <td contenteditable="true">Pickup</td>
+                        <td contenteditable="true">Pustaka Sibu</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">07:30 - 09:30</td>
+                        <td contenteditable="true">Drive</td>
+                        <td contenteditable="true">Sibu to Kingwood Hotel, Mukah</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">09:30 - 10:30</td>
+                        <td contenteditable="true">Passenger check-in / Baggage drop</td>
+                        <td contenteditable="true">Kingwood Hotel, Mukah</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">10:30 - 11:00</td>
+                        <td contenteditable="true">Drive</td>
+                        <td contenteditable="true">Kingwood Hotel to Rumah Jukie (Batu 15, Jln Selangau - Balingian)</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">16:00</td>
+                        <td contenteditable="true">Pickup</td>
+                        <td contenteditable="true">Rumah Jukie</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">16:30</td>
+                        <td contenteditable="true">Drop-off</td>
+                        <td contenteditable="true">Kingwood Hotel, Mukah</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="day-section">
+            <div class="date-header">
+                <span>Date: 1 Nov 2025 (Saturday)</span>
+            </div>
+            <div class="table-controls">
+                <button class="add-row" onclick="addRow(this)">Add Row</button>
+                <button class="delete-row" onclick="deleteRow(this)">Delete Last Row</button>
+            </div>
+            <table class="schedule-table" id="day2-table">
+                <thead>
+                    <tr>
+                        <th class="time-column">Time</th>
+                        <th class="action-column">Action</th>
+                        <th class="location-column">Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true">09:00</td>
+                        <td contenteditable="true">Pickup</td>
+                        <td contenteditable="true">Kingwood Hotel, Mukah</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">09:30</td>
+                        <td contenteditable="true">Drop-off</td>
+                        <td contenteditable="true">Rumah Jukie</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">16:00</td>
+                        <td contenteditable="true">Pickup</td>
+                        <td contenteditable="true">Rumah Jukie</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">16:30</td>
+                        <td contenteditable="true">Drop-off</td>
+                        <td contenteditable="true">Kingwood Hotel, Mukah</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="day-section">
+            <div class="date-header">
+                <span>Date: 2 Nov 2025 (Sunday)</span>
+            </div>
+            <div class="table-controls">
+                <button class="add-row" onclick="addRow(this)">Add Row</button>
+                <button class="delete-row" onclick="deleteRow(this)">Delete Last Row</button>
+            </div>
+            <table class="schedule-table" id="day3-table">
+                <thead>
+                    <tr>
+                        <th class="time-column">Time</th>
+                        <th class="action-column">Action</th>
+                        <th class="location-column">Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true">09:00</td>
+                        <td contenteditable="true">Pickup</td>
+                        <td contenteditable="true">Kingwood Hotel, Mukah</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">09:00 - 11:00</td>
+                        <td contenteditable="true">Drive</td>
+                        <td contenteditable="true">Mukah to Pustaka Sibu</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">11:00</td>
+                        <td contenteditable="true">Drop-off</td>
+                        <td contenteditable="true">Pustaka Sibu</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="notes">
+            <p><strong>Notes:</strong></p>
+            <ul>
+                <li contenteditable="true">All times are approximate and subject to change based on traffic and passenger needs</li>
+                <li contenteditable="true">Ensure vehicle is fueled and maintained before the trip</li>
+                <li contenteditable="true">Keep contact numbers of passengers and locations readily available</li>
+            </ul>
+        </div>
+        
+        <div class="button-container">
+            <button onclick="window.print()">Print Itinerary</button>
+            <button onclick="clearEdits()">Clear All Edits</button>
+            <button onclick="saveItinerary()">Save Itinerary</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to add a new row to the table
+        function addRow(button) {
+            const table = button.closest('.day-section').querySelector('.schedule-table');
+            const tbody = table.querySelector('tbody');
+            const newRow = document.createElement('tr');
+            
+            // Create three editable cells for the new row
+            for (let i = 0; i < 3; i++) {
+                const cell = document.createElement('td');
+                cell.setAttribute('contenteditable', 'true');
+                cell.textContent = 'Click to edit';
+                newRow.appendChild(cell);
+            }
+            
+            tbody.appendChild(newRow);
+            saveToLocalStorage();
+        }
+        
+        // Function to delete the last row from the table
+        function deleteRow(button) {
+            const table = button.closest('.day-section').querySelector('.schedule-table');
+            const tbody = table.querySelector('tbody');
+            const rows = tbody.querySelectorAll('tr');
+            
+            if (rows.length > 0) {
+                tbody.removeChild(rows[rows.length - 1]);
+                saveToLocalStorage();
+            }
+        }
+        
+        // Function to clear all edits and reset to original
+        function clearEdits() {
+            if(confirm("Are you sure you want to clear all edits and reset to original itinerary?")) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+        
+        // Function to save the itinerary
+        function saveItinerary() {
+            saveToLocalStorage();
+            alert("Itinerary saved successfully!");
+        }
+        
+        // Save contenteditable changes to localStorage
+        function saveToLocalStorage() {
+            const itineraryData = {
+                title: document.querySelector('h1').textContent,
+                day1: getTableData('day1-table'),
+                day2: getTableData('day2-table'),
+                day3: getTableData('day3-table'),
+                notes: getNotesData()
+            };
+            
+            localStorage.setItem('driverItinerary', JSON.stringify(itineraryData));
+        }
+        
+        // Get table data for a specific day
+        function getTableData(tableId) {
+            const table = document.getElementById(tableId);
+            const rows = table.querySelectorAll('tbody tr');
+            const data = [];
+            
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                data.push({
+                    time: cells[0].textContent,
+                    action: cells[1].textContent,
+                    location: cells[2].textContent
+                });
+            });
+            
+            return data;
+        }
+        
+        // Get notes data
+        function getNotesData() {
+            const notesItems = document.querySelectorAll('.notes li');
+            const notes = [];
+            
+            notesItems.forEach(item => {
+                notes.push(item.textContent);
+            });
+            
+            return notes;
+        }
+        
+        // Load content from localStorage
+        function loadFromLocalStorage() {
+            const savedData = localStorage.getItem('driverItinerary');
+            
+            if (savedData) {
+                const itineraryData = JSON.parse(savedData);
+                
+                // Load title
+                document.querySelector('h1').textContent = itineraryData.title;
+                
+                // Load table data for each day
+                loadTableData('day1-table', itineraryData.day1);
+                loadTableData('day2-table', itineraryData.day2);
+                loadTableData('day3-table', itineraryData.day3);
+                
+                // Load notes
+                loadNotesData(itineraryData.notes);
+            }
+        }
+        
+        // Load table data for a specific day
+        function loadTableData(tableId, data) {
+            const table = document.getElementById(tableId);
+            const tbody = table.querySelector('tbody');
+            
+            // Clear existing rows (except header)
+            while (tbody.firstChild) {
+                tbody.removeChild(tbody.firstChild);
+            }
+            
+            // Add rows from saved data
+            data.forEach(rowData => {
+                const row = document.createElement('tr');
+                
+                const timeCell = document.createElement('td');
+                timeCell.setAttribute('contenteditable', 'true');
+                timeCell.textContent = rowData.time;
+                row.appendChild(timeCell);
+                
+                const actionCell = document.createElement('td');
+                actionCell.setAttribute('contenteditable', 'true');
+                actionCell.textContent = rowData.action;
+                row.appendChild(actionCell);
+                
+                const locationCell = document.createElement('td');
+                locationCell.setAttribute('contenteditable', 'true');
+                locationCell.textContent = rowData.location;
+                row.appendChild(locationCell);
+                
+                tbody.appendChild(row);
+            });
+        }
+        
+        // Load notes data
+        function loadNotesData(notes) {
+            const notesItems = document.querySelectorAll('.notes li');
+            
+            notesItems.forEach((item, index) => {
+                if (notes[index]) {
+                    item.textContent = notes[index];
+                }
+            });
+        }
+        
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadFromLocalStorage();
+            
+            // Add event listeners to save changes automatically
+            const editableElements = document.querySelectorAll('[contenteditable="true"]');
+            editableElements.forEach(element => {
+                element.addEventListener('input', saveToLocalStorage);
+            });
+        });
+    </script>
+</body>
+</html>
