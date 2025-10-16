@@ -631,7 +631,7 @@
         const API_BASE_URL = 'https://your-server.com/api'; // Change this to your actual server URL
         
         // Mock server functions - Replace these with actual fetch calls to your server
-        const serverAPI = {
+        const localStorage = {
             // Get all facilities from server
             async getFacilities() {
                 try {
@@ -639,10 +639,10 @@
                     // const response = await fetch(`${API_BASE_URL}/facilities`);
                     // return await response.json();
                     
-                    // For demo purposes, we'll simulate server delay and use serverAPI
+                    // For demo purposes, we'll simulate server delay and use localStorage
                     return new Promise(resolve => {
                         setTimeout(() => {
-                            const facilities = JSON.parse(serverAPI.getItem('server_facilities')) || [];
+                            const facilities = JSON.parse(localStorage.getItem('server_facilities')) || [];
                             resolve(facilities);
                         }, 500);
                     });
@@ -663,13 +663,13 @@
                     // });
                     // return await response.json();
                     
-                    // For demo purposes, we'll simulate server delay and use serverAPI
+                    // For demo purposes, we'll simulate server delay and use localStorage
                     return new Promise(resolve => {
                         setTimeout(() => {
-                            const facilities = JSON.parse(serverAPI.getItem('server_facilities')) || [];
+                            const facilities = JSON.parse(localStorage.getItem('server_facilities')) || [];
                             facility.id = Date.now(); // Generate unique ID
                             facilities.push(facility);
-                            serverAPI.setItem('server_facilities', JSON.stringify(facilities));
+                            localStorage.setItem('server_facilities', JSON.stringify(facilities));
                             resolve(facility);
                         }, 500);
                     });
@@ -690,14 +690,14 @@
                     // });
                     // return await response.json();
                     
-                    // For demo purposes, we'll simulate server delay and use serverAPI
+                    // For demo purposes, we'll simulate server delay and use localStorage
                     return new Promise(resolve => {
                         setTimeout(() => {
-                            const facilities = JSON.parse(serverAPI.getItem('server_facilities')) || [];
+                            const facilities = JSON.parse(localStorage.getItem('server_facilities')) || [];
                             const index = facilities.findIndex(f => f.id === id);
                             if (index !== -1) {
                                 facilities[index] = { ...facilities[index], ...updates };
-                                serverAPI.setItem('server_facilities', JSON.stringify(facilities));
+                                localStorage.setItem('server_facilities', JSON.stringify(facilities));
                                 resolve(facilities[index]);
                             } else {
                                 throw new Error('Facility not found');
@@ -719,12 +719,12 @@
                     // });
                     // return await response.json();
                     
-                    // For demo purposes, we'll simulate server delay and use serverAPI
+                    // For demo purposes, we'll simulate server delay and use localStorage
                     return new Promise(resolve => {
                         setTimeout(() => {
-                            let facilities = JSON.parse(serverAPI.getItem('server_facilities')) || [];
+                            let facilities = JSON.parse(localStorage.getItem('server_facilities')) || [];
                             facilities = facilities.filter(f => f.id !== id);
-                            serverAPI.setItem('server_facilities', JSON.stringify(facilities));
+                            localStorage.setItem('server_facilities', JSON.stringify(facilities));
                             resolve({ success: true });
                         }, 500);
                     });
@@ -823,7 +823,7 @@
             };
             
             // Add to server
-            await serverAPI.addFacility(newFacility);
+            await localStorage.addFacility(newFacility);
             
             // Refresh grids
             await loadHomeGridData();
@@ -841,7 +841,7 @@
             }
             
             try {
-                await serverAPI.deleteFacility(id);
+                await localStorage.deleteFacility(id);
                 
                 // Refresh grids
                 await loadHomeGridData();
@@ -858,7 +858,7 @@
         // Update a facility on server
         async function updateFacility(id, field, value) {
             try {
-                await serverAPI.updateFacility(id, { [field]: value });
+                await localStorage.updateFacility(id, { [field]: value });
                 
                 // Refresh grids
                 await loadHomeGridData();
@@ -875,7 +875,7 @@
         // Load home grid data from server
         async function loadHomeGridData() {
             try {
-                const facilities = await serverAPI.getFacilities();
+                const facilities = await localStorage.getFacilities();
                 homeGridContainer.innerHTML = '';
                 
                 // Filter facilities by group if needed
@@ -908,7 +908,7 @@
         // Load admin grid data from server
         async function loadAdminGridData() {
             try {
-                const facilities = await serverAPI.getFacilities();
+                const facilities = await localStorage.getFacilities();
                 adminGridContainer.innerHTML = '';
                 
                 facilities.forEach(facility => {
@@ -1047,7 +1047,7 @@
         // Get facility URL by ID
         async function getFacilityUrl(id) {
             try {
-                const facilities = await serverAPI.getFacilities();
+                const facilities = await localStorage.getFacilities();
                 const facility = facilities.find(f => f.id === id);
                 return facility ? facility.url : '';
             } catch (error) {
@@ -1070,7 +1070,7 @@
         async function openIconModal(id) {
             currentEditId = id;
             try {
-                const facilities = await serverAPI.getFacilities();
+                const facilities = await localStorage.getFacilities();
                 const facility = facilities.find(f => f.id === id);
                 
                 if (facility) {
@@ -1141,7 +1141,7 @@
         // Set up group filters
         async function setupGroupFilters() {
             try {
-                const facilities = await serverAPI.getFacilities();
+                const facilities = await localStorage.getFacilities();
                 const groups = ['all', ...new Set(facilities.map(f => f.group))];
                 
                 groupFilter.innerHTML = '';
@@ -1166,7 +1166,7 @@
         // Update empty message visibility
         async function updateEmptyMessages() {
             try {
-                const facilities = await serverAPI.getFacilities();
+                const facilities = await localStorage.getFacilities();
                 homeEmptyMessage.style.display = facilities.length === 0 ? 'block' : 'none';
                 adminEmptyMessage.style.display = facilities.length === 0 ? 'block' : 'none';
             } catch (error) {
