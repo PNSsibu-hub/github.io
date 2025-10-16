@@ -639,10 +639,10 @@
                     // const response = await fetch(`${API_BASE_URL}/facilities`);
                     // return await response.json();
                     
-                    // For demo purposes, we'll simulate server delay and use localStorage
+                    // For demo purposes, we'll simulate server delay and use serverAPI
                     return new Promise(resolve => {
                         setTimeout(() => {
-                            const facilities = JSON.parse(localStorage.getItem('server_facilities')) || [];
+                            const facilities = JSON.parse(serverAPI.getItem('server_facilities')) || [];
                             resolve(facilities);
                         }, 500);
                     });
@@ -663,13 +663,13 @@
                     // });
                     // return await response.json();
                     
-                    // For demo purposes, we'll simulate server delay and use localStorage
+                    // For demo purposes, we'll simulate server delay and use serverAPI
                     return new Promise(resolve => {
                         setTimeout(() => {
-                            const facilities = JSON.parse(localStorage.getItem('server_facilities')) || [];
+                            const facilities = JSON.parse(serverAPI.getItem('server_facilities')) || [];
                             facility.id = Date.now(); // Generate unique ID
                             facilities.push(facility);
-                            localStorage.setItem('server_facilities', JSON.stringify(facilities));
+                            serverAPI.setItem('server_facilities', JSON.stringify(facilities));
                             resolve(facility);
                         }, 500);
                     });
@@ -690,14 +690,14 @@
                     // });
                     // return await response.json();
                     
-                    // For demo purposes, we'll simulate server delay and use localStorage
+                    // For demo purposes, we'll simulate server delay and use serverAPI
                     return new Promise(resolve => {
                         setTimeout(() => {
-                            const facilities = JSON.parse(localStorage.getItem('server_facilities')) || [];
+                            const facilities = JSON.parse(serverAPI.getItem('server_facilities')) || [];
                             const index = facilities.findIndex(f => f.id === id);
                             if (index !== -1) {
                                 facilities[index] = { ...facilities[index], ...updates };
-                                localStorage.setItem('server_facilities', JSON.stringify(facilities));
+                                serverAPI.setItem('server_facilities', JSON.stringify(facilities));
                                 resolve(facilities[index]);
                             } else {
                                 throw new Error('Facility not found');
@@ -719,12 +719,12 @@
                     // });
                     // return await response.json();
                     
-                    // For demo purposes, we'll simulate server delay and use localStorage
+                    // For demo purposes, we'll simulate server delay and use serverAPI
                     return new Promise(resolve => {
                         setTimeout(() => {
-                            let facilities = JSON.parse(localStorage.getItem('server_facilities')) || [];
+                            let facilities = JSON.parse(serverAPI.getItem('server_facilities')) || [];
                             facilities = facilities.filter(f => f.id !== id);
-                            localStorage.setItem('server_facilities', JSON.stringify(facilities));
+                            serverAPI.setItem('server_facilities', JSON.stringify(facilities));
                             resolve({ success: true });
                         }, 500);
                     });
