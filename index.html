@@ -631,7 +631,7 @@
         const API_BASE_URL = 'https://your-server.com/api'; // Change this to your actual server URL
         
         // Mock server functions - Replace these with actual fetch calls to your server
-        const localStorage = {
+        const serverAPI = {
             // Get all facilities from server
             async getFacilities() {
                 try {
@@ -823,7 +823,7 @@
             };
             
             // Add to server
-            await localStorage.addFacility(newFacility);
+            await serverAPI.addFacility(newFacility);
             
             // Refresh grids
             await loadHomeGridData();
@@ -841,7 +841,7 @@
             }
             
             try {
-                await localStorage.deleteFacility(id);
+                await serverAPI.deleteFacility(id);
                 
                 // Refresh grids
                 await loadHomeGridData();
@@ -858,7 +858,7 @@
         // Update a facility on server
         async function updateFacility(id, field, value) {
             try {
-                await localStorage.updateFacility(id, { [field]: value });
+                await serverAPI.updateFacility(id, { [field]: value });
                 
                 // Refresh grids
                 await loadHomeGridData();
@@ -875,7 +875,7 @@
         // Load home grid data from server
         async function loadHomeGridData() {
             try {
-                const facilities = await localStorage.getFacilities();
+                const facilities = await serverAPI.getFacilities();
                 homeGridContainer.innerHTML = '';
                 
                 // Filter facilities by group if needed
@@ -908,7 +908,7 @@
         // Load admin grid data from server
         async function loadAdminGridData() {
             try {
-                const facilities = await localStorage.getFacilities();
+                const facilities = await serverAPI.getFacilities();
                 adminGridContainer.innerHTML = '';
                 
                 facilities.forEach(facility => {
@@ -1047,7 +1047,7 @@
         // Get facility URL by ID
         async function getFacilityUrl(id) {
             try {
-                const facilities = await localStorage.getFacilities();
+                const facilities = await serverAPI.getFacilities();
                 const facility = facilities.find(f => f.id === id);
                 return facility ? facility.url : '';
             } catch (error) {
@@ -1070,7 +1070,7 @@
         async function openIconModal(id) {
             currentEditId = id;
             try {
-                const facilities = await localStorage.getFacilities();
+                const facilities = await serverAPI.getFacilities();
                 const facility = facilities.find(f => f.id === id);
                 
                 if (facility) {
@@ -1141,7 +1141,7 @@
         // Set up group filters
         async function setupGroupFilters() {
             try {
-                const facilities = await localStorage.getFacilities();
+                const facilities = await serverAPI.getFacilities();
                 const groups = ['all', ...new Set(facilities.map(f => f.group))];
                 
                 groupFilter.innerHTML = '';
@@ -1166,7 +1166,7 @@
         // Update empty message visibility
         async function updateEmptyMessages() {
             try {
-                const facilities = await localStorage.getFacilities();
+                const facilities = await serverAPI.getFacilities();
                 homeEmptyMessage.style.display = facilities.length === 0 ? 'block' : 'none';
                 adminEmptyMessage.style.display = facilities.length === 0 ? 'block' : 'none';
             } catch (error) {
