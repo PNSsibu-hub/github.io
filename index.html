@@ -4,544 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facility Management Online Application</title>
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* All your existing CSS remains the same */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
+        /* Custom styles to complement Tailwind CSS */
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc; /* Lighter gray background */
         }
-        
-        .container {
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            margin: 30px 0;
-            padding: 20px;
-            position: relative;
-        }
-        
-        h1 {
-            color: #2c3e50;
-            font-size: 2.8rem;
-            margin-bottom: 10px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .subtitle {
-            color: #7f8c8d;
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-        }
-        
-        .main-content {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-        
-        .nav-tabs {
-            display: flex;
-            background: #f8fafc;
-            border-bottom: 1px solid #eaeff5;
-        }
-        
-        .nav-tab {
-            padding: 18px 30px;
-            cursor: pointer;
-            font-weight: 600;
-            color: #7f8c8d;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s ease;
-        }
-        
         .nav-tab.active {
-            color: #3498db;
-            border-bottom: 3px solid #3498db;
-            background: white;
+            border-bottom-color: #3b82f6; /* Tailwind blue-500 */
+            color: #3b82f6;
+            background-color: white;
         }
-        
-        .tab-content {
-            display: none;
-            padding: 30px;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .form-section {
-            padding: 30px;
-            background: #f8fafc;
-            border-bottom: 1px solid #eaeff5;
-        }
-        
-        .form-title {
-            color: #2c3e50;
-            margin-bottom: 25px;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .form-row {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .input-group {
-            flex: 1;
-            min-width: 250px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #34495e;
-            font-weight: 500;
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #dce4ec;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        input:focus, select:focus {
-            border-color: #3498db;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-            outline: none;
-        }
-        
-        .btn {
-            padding: 14px 28px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        
-        .btn-primary {
-            background: #3498db;
-            color: white;
-            align-self: flex-end;
-        }
-        
-        .btn-primary:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-        }
-        
-        .grid-section {
-            padding: 30px;
-            overflow-x: auto;
-        }
-        
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 25px;
-            margin-top: 20px;
-        }
-        
-        .facility-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            padding: 25px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: all 0.3s ease;
-            position: relative;
-            border: 1px solid #eaeff5;
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .facility-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .card-icon {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            color: #3498db;
-            transition: all 0.3s ease;
-            border-radius: 50%;
-            width: 90px;
-            height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f8fafc;
-        }
-        
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 15px;
-            text-align: center;
-            width: 100%;
-        }
-        
-        .card-group {
-            background: #e3f2fd;
-            color: #3498db;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-        
-        .empty-message {
-            text-align: center;
-            padding: 40px;
-            color: #7f8c8d;
-            font-style: italic;
-            grid-column: 1 / -1;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #7f8c8d;
-            font-size: 0.9rem;
-            width: 100%;
-        }
-        
-        @media (max-width: 1024px) {
-            .grid-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .form-row {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .btn {
-                width: 100%;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .nav-tabs {
-                flex-direction: column;
-            }
-            
-            .nav-tab {
-                border-bottom: 1px solid #eaeff5;
-                border-left: 3px solid transparent;
-            }
-            
-            .nav-tab.active {
-                border-bottom: 1px solid #eaeff5;
-                border-left: 3px solid #3498db;
-            }
-        }
-        
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 8px;
-            color: white;
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            transform: translateX(150%);
-            transition: transform 0.3s ease;
-            z-index: 1000;
-        }
-        
-        .notification.show {
-            transform: translateX(0);
-        }
-        
-        .notification.success {
-            background: #2ecc71;
-        }
-        
-        .notification.error {
-            background: #e74c3c;
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            width: 90%;
-            max-width: 500px;
-        }
-        
-        .modal-title {
-            margin-bottom: 20px;
-            color: #2c3e50;
-            font-size: 1.5rem;
-        }
-        
-        .icon-options {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .icon-option {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .icon-option:hover {
-            background: #f8fafc;
-        }
-        
-        .icon-option.selected {
-            background: #e3f2fd;
-            border: 2px solid #3498db;
-        }
-        
-        .icon-option i {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            color: #3498db;
-        }
-        
-        .modal-actions {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 25px;
-        }
-        
-        .btn-cancel {
-            background: #95a5a6;
-            color: white;
-        }
-        
-        .btn-cancel:hover {
-            background: #7f8c8d;
-        }
-        
-        .editable-input {
-            width: 100%;
-            padding: 8px 12px;
-            border: 1px solid #3498db;
-            border-radius: 6px;
-            font-size: 1rem;
-            background: white;
-        }
-        
-        .editable-input:focus {
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-        }
-        
-        .admin-card {
-            position: relative;
-        }
-        
-        .card-actions {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-            justify-content: center;
-            margin-top: 15px;
-        }
-        
-        .btn-edit {
-            background: #2ecc71;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.9rem;
-        }
-        
-        .btn-edit:hover {
-            background: #27ae60;
-            transform: scale(1.05);
-        }
-        
-        .btn-delete {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 16px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.9rem;
-        }
-        
-        .btn-delete:hover {
-            background: #c0392b;
-            transform: scale(1.05);
-        }
-        
-        .group-selector {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .group-btn {
-            padding: 8px 16px;
-            background: #f8fafc;
-            border: 1px solid #eaeff5;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.9rem;
-        }
-        
-        .group-btn.active {
-            background: #3498db;
-            color: white;
-            border-color: #3498db;
-        }
-        
-        .group-btn:hover:not(.active) {
-            background: #e3f2fd;
-        }
-        
         .loading {
-            display: inline-block;
             width: 20px;
             height: 20px;
             border: 3px solid rgba(255,255,255,.3);
             border-radius: 50%;
             border-top-color: #fff;
             animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
         }
-        
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+        /* Style for editable input fields */
+        .editable-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 2px solid #3b82f6;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            outline: none;
+        }
     </style>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1><i class="fas fa-building"></i> Facility Management Online Application</h1>
-            <p class="subtitle">Manage your facility application with ease - Data stored on server</p>
+<body class="bg-slate-50">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
+        <header class="text-center my-8">
+            <h1 class="text-3xl md:text-5xl font-bold text-slate-800 flex items-center justify-center gap-4">
+                <i class="fas fa-building text-blue-500"></i>
+                <span>Facility Management</span>
+            </h1>
+            <p class="text-slate-500 mt-2 text-lg">Your central hub for all facility applications, securely stored on the server.</p>
         </header>
-        
-        <div class="main-content">
-            <div class="nav-tabs">
-                <div class="nav-tab active" data-tab="home">Home</div>
-                <div class="nav-tab" data-tab="admin">Admin</div>
+
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="border-b border-slate-200">
+                <div class="nav-tabs flex">
+                    <div class="nav-tab active cursor-pointer py-4 px-6 font-semibold text-slate-500 border-b-2 border-transparent transition-all" data-tab="home">Home</div>
+                    <div class="nav-tab cursor-pointer py-4 px-6 font-semibold text-slate-500 border-b-2 border-transparent transition-all" data-tab="admin">Admin</div>
+                </div>
             </div>
-            
+
             <!-- Home Tab Content -->
-            <div class="tab-content active" id="home-tab">
+            <div class="tab-content active p-4 md:p-8" id="home-tab">
                 <div class="grid-section">
-                    <h2 class="form-title"><i class="fas fa-th-large"></i> Application List</h2>
-                    <div class="group-selector" id="group-filter">
+                    <h2 class="text-2xl font-bold text-slate-700 flex items-center gap-3 mb-4"><i class="fas fa-th-large text-blue-500"></i> Application List</h2>
+                    <div class="group-selector flex flex-wrap gap-2 mb-6" id="group-filter">
                         <!-- Group filters will be added dynamically -->
                     </div>
-                    <div class="grid-container" id="home-grid-container">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="home-grid-container">
                         <!-- Grid cards will be added here dynamically -->
                     </div>
-                    <div id="home-empty-message" class="empty-message">
-                        <i class="fas fa-info-circle" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                        <p>No facilities added yet. Go to Admin page to add new facilities.</p>
+                    <div id="home-empty-message" class="text-center py-16 text-slate-500 hidden">
+                        <i class="fas fa-info-circle text-5xl mb-4 text-slate-400"></i>
+                        <p class="text-lg">No facilities found. An administrator needs to add them in the 'Admin' tab.</p>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Admin Tab Content -->
-            <div class="tab-content" id="admin-tab">
-                <div class="form-section">
-                    <h2 class="form-title"><i class="fas fa-plus-circle"></i> Add New Application</h2>
-                    <div class="form-row">
+            <div class="tab-content hidden p-4 md:p-8" id="admin-tab">
+                <div class="form-section bg-slate-50 p-6 rounded-lg border border-slate-200 mb-8">
+                    <h2 class="text-2xl font-bold text-slate-700 flex items-center gap-3 mb-6"><i class="fas fa-plus-circle text-blue-500"></i> Add New Application</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
                         <div class="input-group">
-                            <label for="description">Description</label>
-                            <input type="text" id="description" placeholder="Enter Application description">
+                            <label for="description" class="block mb-1 text-sm font-medium text-slate-600">Description</label>
+                            <input type="text" id="description" placeholder="e.g., HVAC Control Panel" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                         </div>
                         <div class="input-group">
-                            <label for="url">URL Link</label>
-                            <input type="text" id="url" placeholder="Enter URL link">
+                            <label for="url" class="block mb-1 text-sm font-medium text-slate-600">URL Link</label>
+                            <input type="text" id="url" placeholder="https://..." class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                         </div>
                         <div class="input-group">
-                            <label for="group">Group</label>
-                            <input type="text" id="group" placeholder="Enter group name">
+                            <label for="group" class="block mb-1 text-sm font-medium text-slate-600">Group</label>
+                            <input type="text" id="group" placeholder="e.g., Maintenance" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                         </div>
-                        <div class="input-group">
-                            <label for="icon">Icon</label>
-                            <select id="icon">
+                         <div class="input-group">
+                            <label for="icon" class="block mb-1 text-sm font-medium text-slate-600">Icon</label>
+                            <select id="icon" class="w-full p-3 border border-slate-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
                                 <option value="fas fa-building">Building</option>
                                 <option value="fas fa-wrench">Wrench</option>
                                 <option value="fas fa-tools">Tools</option>
@@ -554,48 +111,50 @@
                                 <option value="fas fa-camera">Camera</option>
                             </select>
                         </div>
-                        <button class="btn btn-primary" id="add-btn">
-                            <i class="fas fa-plus"></i> Add Application
+                        <button id="add-btn" class="w-full bg-blue-500 text-white p-3 rounded-lg font-semibold hover:bg-blue-600 transition-all shadow hover:shadow-md flex items-center justify-center gap-2">
+                            <i class="fas fa-plus"></i> Add
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="grid-section">
-                    <h2 class="form-title"><i class="fas fa-list"></i> Manage Applications</h2>
-                    <div class="grid-container" id="admin-grid-container">
+                     <h2 class="text-2xl font-bold text-slate-700 flex items-center gap-3 mb-6"><i class="fas fa-list text-blue-500"></i> Manage Applications</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="admin-grid-container">
                         <!-- Admin grid cards will be added here dynamically -->
                     </div>
-                    <div id="admin-empty-message" class="empty-message">
-                        <i class="fas fa-info-circle" style="font-size: 3rem; margin-bottom: 15px;"></i>
-                        <p>No facilities added yet. Start by adding a new facility above.</p>
+                    <div id="admin-empty-message" class="text-center py-16 text-slate-500 hidden">
+                        <i class="fas fa-info-circle text-5xl mb-4 text-slate-400"></i>
+                        <p class="text-lg">No facilities added yet. Start by adding a new one above.</p>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <footer>
-            <p>Facility Management Online Application &copy; 2023 | Data stored on server</p>
+
+        <footer class="text-center py-6">
+            <p class="text-slate-500">Facility Management &copy; 2025 | All data stored securely on the server.</p>
         </footer>
     </div>
-    
-    <div class="notification" id="notification"></div>
-    
-    <!-- Icon Selection Modal -->
-    <div class="modal" id="icon-modal">
-        <div class="modal-content">
-            <h2 class="modal-title">Select an Icon</h2>
-            <div class="icon-options" id="icon-options">
-                <!-- Icon options will be added dynamically -->
-            </div>
-            <div class="modal-actions">
-                <button class="btn btn-cancel" id="cancel-icon-btn">Cancel</button>
-                <button class="btn btn-primary" id="save-icon-btn">Save</button>
-            </div>
-        </div>
-    </div>
-    
-    <script>
-        // DOM elements
+
+    <!-- Notification Toast -->
+    <div id="notification" class="fixed top-5 right-5 p-4 rounded-lg text-white shadow-lg transform translate-x-full transition-transform duration-300"></div>
+
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Configuration ---
+        // IMPORTANT: Create a Firebase project and paste your web app's configuration here.
+        // Go to Project settings > General > Your apps > Web app > Firebase SDK snippet > Config
+        const firebaseConfig = JSON.parse(
+            typeof __firebase_config !== 'undefined' 
+            ? __firebase_config 
+            : '{ "apiKey": "YOUR_API_KEY", "authDomain": "YOUR_PROJECT_ID.firebaseapp.com", "projectId": "YOUR_PROJECT_ID", "storageBucket": "YOUR_PROJECT_ID.appspot.com", "messagingSenderId": "YOUR_SENDER_ID", "appId": "YOUR_APP_ID" }'
+        );
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'facility-management-app';
+
+        // --- DOM Elements ---
         const homeGridContainer = document.getElementById('home-grid-container');
         const adminGridContainer = document.getElementById('admin-grid-container');
         const addBtn = document.getElementById('add-btn');
@@ -606,593 +165,272 @@
         const homeEmptyMessage = document.getElementById('home-empty-message');
         const adminEmptyMessage = document.getElementById('admin-empty-message');
         const notification = document.getElementById('notification');
-        const iconModal = document.getElementById('icon-modal');
-        const iconOptionsContainer = document.getElementById('icon-options');
-        const cancelIconBtn = document.getElementById('cancel-icon-btn');
-        const saveIconBtn = document.getElementById('save-icon-btn');
         const groupFilter = document.getElementById('group-filter');
-        const navTabs = document.querySelectorAll('.nav-tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-        
-        // State variables
-        let currentEditId = null;
-        let selectedIcon = null;
+
+        // --- App State ---
         let currentGroupFilter = 'all';
-        
-        // Icon options for the modal
-        const iconOptions = [
-            'fas fa-building', 'fas fa-wrench', 'fas fa-tools', 'fas fa-laptop',
-            'fas fa-server', 'fas fa-network-wired', 'fas fa-warehouse', 'fas fa-door-closed',
-            'fas fa-lightbulb', 'fas fa-camera', 'fas fa-desktop', 'fas fa-plug',
-            'fas fa-wifi', 'fas fa-thermometer-half', 'fas fa-shield-alt', 'fas fa-key'
-        ];
-        
-        // Server API URL - Replace with your actual server endpoint
-        const API_BASE_URL = 'https://your-server.com/api'; // Change this to your actual server URL
-        
-        // Mock server functions - Replace these with actual fetch calls to your server
-        const serverAPI = {
-            // Get all facilities from server
-            async getFacilities() {
-                try {
-                    // In a real implementation, you would use:
-                    // const response = await fetch(`${API_BASE_URL}/facilities`);
-                    // return await response.json();
-                    
-                    // For demo purposes, we'll simulate server delay and use localStorage
-                    return new Promise(resolve => {
-                        setTimeout(() => {
-                            const facilities = JSON.parse(localStorage.getItem('server_facilities')) || [];
-                            resolve(facilities);
-                        }, 500);
-                    });
-                } catch (error) {
-                    console.error('Error fetching facilities:', error);
-                    throw error;
-                }
-            },
-            
-            // Add a new facility to server
-            async addFacility(facility) {
-                try {
-                    // In a real implementation, you would use:
-                    // const response = await fetch(`${API_BASE_URL}/facilities`, {
-                    //     method: 'POST',
-                    //     headers: { 'Content-Type': 'application/json' },
-                    //     body: JSON.stringify(facility)
-                    // });
-                    // return await response.json();
-                    
-                    // For demo purposes, we'll simulate server delay and use localStorage
-                    return new Promise(resolve => {
-                        setTimeout(() => {
-                            const facilities = JSON.parse(localStorage.getItem('server_facilities')) || [];
-                            facility.id = Date.now(); // Generate unique ID
-                            facilities.push(facility);
-                            localStorage.setItem('server_facilities', JSON.stringify(facilities));
-                            resolve(facility);
-                        }, 500);
-                    });
-                } catch (error) {
-                    console.error('Error adding facility:', error);
-                    throw error;
-                }
-            },
-            
-            // Update a facility on server
-            async updateFacility(id, updates) {
-                try {
-                    // In a real implementation, you would use:
-                    // const response = await fetch(`${API_BASE_URL}/facilities/${id}`, {
-                    //     method: 'PUT',
-                    //     headers: { 'Content-Type': 'application/json' },
-                    //     body: JSON.stringify(updates)
-                    // });
-                    // return await response.json();
-                    
-                    // For demo purposes, we'll simulate server delay and use localStorage
-                    return new Promise(resolve => {
-                        setTimeout(() => {
-                            const facilities = JSON.parse(localStorage.getItem('server_facilities')) || [];
-                            const index = facilities.findIndex(f => f.id === id);
-                            if (index !== -1) {
-                                facilities[index] = { ...facilities[index], ...updates };
-                                localStorage.setItem('server_facilities', JSON.stringify(facilities));
-                                resolve(facilities[index]);
-                            } else {
-                                throw new Error('Facility not found');
-                            }
-                        }, 500);
-                    });
-                } catch (error) {
-                    console.error('Error updating facility:', error);
-                    throw error;
-                }
-            },
-            
-            // Delete a facility from server
-            async deleteFacility(id) {
-                try {
-                    // In a real implementation, you would use:
-                    // const response = await fetch(`${API_BASE_URL}/facilities/${id}`, {
-                    //     method: 'DELETE'
-                    // });
-                    // return await response.json();
-                    
-                    // For demo purposes, we'll simulate server delay and use localStorage
-                    return new Promise(resolve => {
-                        setTimeout(() => {
-                            let facilities = JSON.parse(localStorage.getItem('server_facilities')) || [];
-                            facilities = facilities.filter(f => f.id !== id);
-                            localStorage.setItem('server_facilities', JSON.stringify(facilities));
-                            resolve({ success: true });
-                        }, 500);
-                    });
-                } catch (error) {
-                    console.error('Error deleting facility:', error);
-                    throw error;
-                }
-            }
-        };
-        
-        // Load data from server on page load
-        document.addEventListener('DOMContentLoaded', async () => {
-            try {
-                await loadHomeGridData();
-                await loadAdminGridData();
-                updateEmptyMessages();
-                populateIconOptions();
-                setupGroupFilters();
-                
-                // Set up tab navigation
-                navTabs.forEach(tab => {
-                    tab.addEventListener('click', async () => {
-                        const tabId = tab.getAttribute('data-tab');
-                        
-                        // Update active tab
-                        navTabs.forEach(t => t.classList.remove('active'));
-                        tab.classList.add('active');
-                        
-                        // Show corresponding content
-                        tabContents.forEach(content => {
-                            content.classList.remove('active');
-                            if (content.id === `${tabId}-tab`) {
-                                content.classList.add('active');
-                            }
-                        });
-                        
-                        // If switching to admin tab, reload admin grid
-                        if (tabId === 'admin') {
-                            await loadAdminGridData();
-                        }
-                    });
-                });
-            } catch (error) {
-                showNotification('Error loading data from server', 'error');
+        let facilitiesCache = []; // Local cache of facilities
+        let facilitiesColRef; // Firestore collection reference
+        let unsubscribe; // To detach the onSnapshot listener
+
+        // --- Firebase Initialization ---
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        setLogLevel('debug');
+
+        // --- Authentication ---
+        onAuthStateChanged(auth, user => {
+            if (user) {
+                console.log("Authenticated User ID:", user.uid);
+                // Define the collection path using the user's unique ID for data security
+                facilitiesColRef = collection(db, `artifacts/${appId}/users/${user.uid}/facilities`);
+                listenForFacilities(); // Start listening for real-time data
+            } else {
+                console.log("User is not authenticated.");
+                if (unsubscribe) unsubscribe(); // Stop listening if user logs out
             }
         });
+
+        async function signIn() {
+            try {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Authentication Error:", error);
+                showNotification("Authentication failed. Please check your Firebase setup.", "error");
+            }
+        }
+
+        // --- Real-time Data Listener ---
+        function listenForFacilities() {
+            if (unsubscribe) unsubscribe();
+            if (!facilitiesColRef) return;
+
+            unsubscribe = onSnapshot(facilitiesColRef, (snapshot) => {
+                let facilities = [];
+                snapshot.forEach(doc => {
+                    facilities.push({ ...doc.data(), id: doc.id });
+                });
+                // Sort in memory to avoid needing complex Firestore indexes
+                facilities.sort((a, b) => (a.group || '').localeCompare(b.group || ''));
+                facilitiesCache = facilities;
+                renderAll(facilitiesCache);
+            }, (error) => {
+                console.error("Error listening to facilities:", error);
+                showNotification("Error fetching real-time data.", "error");
+            });
+        }
         
-        // Add button event listener
-        addBtn.addEventListener('click', async () => {
+        // --- Firestore CRUD Functions ---
+        async function addFacility() {
             const description = descriptionInput.value.trim();
             const url = urlInput.value.trim();
             const group = groupInput.value.trim() || 'General';
             const icon = iconSelect.value;
-            
-            if (!description) {
-                showNotification('Please enter a description', 'error');
-                descriptionInput.focus();
-                return;
+
+            if (!description || !url) {
+                return showNotification('Description and URL are required.', 'error');
             }
-            
             if (!isValidUrl(url)) {
-                showNotification('Please enter a valid URL (include http:// or https://)', 'error');
-                urlInput.focus();
-                return;
+                return showNotification('Please enter a valid URL (e.g., https://example.com)', 'error');
             }
             
-            // Show loading state
-            addBtn.innerHTML = '<div class="loading"></div> Adding...';
-            addBtn.disabled = true;
-            
+            setButtonLoading(addBtn, true, 'Adding...');
             try {
-                await addFacility(description, url, group, icon);
-                
-                // Clear inputs
+                await addDoc(facilitiesColRef, { description, url, group, icon, createdAt: Date.now() });
+                showNotification('Application added successfully!', 'success');
                 descriptionInput.value = '';
                 urlInput.value = '';
                 groupInput.value = '';
-                descriptionInput.focus();
             } catch (error) {
-                showNotification('Error adding facility to server', 'error');
+                console.error("Error adding facility: ", error);
+                showNotification('Failed to add application.', 'error');
             } finally {
-                // Restore button state
-                addBtn.innerHTML = '<i class="fas fa-plus"></i> Add Application';
-                addBtn.disabled = false;
+                setButtonLoading(addBtn, false, '<i class="fas fa-plus"></i> Add');
             }
-        });
-        
-        // Add a new facility to server
-        async function addFacility(description, url, group, icon) {
-            // Create new facility object
-            const newFacility = {
-                description,
-                url,
-                group,
-                icon
-            };
-            
-            // Add to server
-            await serverAPI.addFacility(newFacility);
-            
-            // Refresh grids
-            await loadHomeGridData();
-            await loadAdminGridData();
-            updateEmptyMessages();
-            setupGroupFilters();
-            
-            showNotification('Facility added successfully', 'success');
         }
-        
-        // Delete a facility from server
+
         async function deleteFacility(id) {
-            if (!confirm('Are you sure you want to delete this facility?')) {
-                return;
-            }
-            
+            // Using a custom modal instead of confirm()
+            if (!await showConfirmation('Are you sure you want to delete this facility?')) return;
             try {
-                await serverAPI.deleteFacility(id);
-                
-                // Refresh grids
-                await loadHomeGridData();
-                await loadAdminGridData();
-                updateEmptyMessages();
-                setupGroupFilters();
-                
-                showNotification('Facility deleted successfully', 'success');
+                const docRef = doc(db, facilitiesColRef.path, id);
+                await deleteDoc(docRef);
+                showNotification('Application deleted.', 'success');
             } catch (error) {
-                showNotification('Error deleting facility from server', 'error');
+                console.error("Error deleting facility: ", error);
+                showNotification('Failed to delete application.', 'error');
             }
         }
-        
-        // Update a facility on server
-        async function updateFacility(id, field, value) {
-            try {
-                await serverAPI.updateFacility(id, { [field]: value });
-                
-                // Refresh grids
-                await loadHomeGridData();
-                await loadAdminGridData();
-                updateEmptyMessages();
-                setupGroupFilters();
-                
-                showNotification('Facility updated successfully', 'success');
+
+        async function updateFacility(id, data) {
+             try {
+                const docRef = doc(db, facilitiesColRef.path, id);
+                await updateDoc(docRef, data);
+                showNotification('Application updated.', 'success');
             } catch (error) {
-                showNotification('Error updating facility on server', 'error');
+                console.error("Error updating facility: ", error);
+                showNotification('Failed to update application.', 'error');
             }
         }
-        
-        // Load home grid data from server
-        async function loadHomeGridData() {
-            try {
-                const facilities = await serverAPI.getFacilities();
-                homeGridContainer.innerHTML = '';
-                
-                // Filter facilities by group if needed
-                const filteredFacilities = currentGroupFilter === 'all' 
-                    ? facilities 
-                    : facilities.filter(facility => facility.group === currentGroupFilter);
-                
-                filteredFacilities.forEach(facility => {
-                    const card = document.createElement('a');
-                    card.className = 'facility-card';
-                    card.href = facility.url;
-                    card.target = '_blank';
-                    
-                    card.innerHTML = `
-                        <div class="card-icon">
-                            <i class="${facility.icon}"></i>
-                        </div>
-                        <div class="card-group">${facility.group}</div>
-                        <div class="card-title">${facility.description}</div>
-                    `;
-                    
-                    homeGridContainer.appendChild(card);
-                });
-            } catch (error) {
-                console.error('Error loading home grid data:', error);
-                throw error;
-            }
+
+        // --- Rendering Logic ---
+        function renderAll(facilities) {
+            renderHomeGrid(facilities);
+            renderAdminGrid(facilities);
+            setupGroupFilters(facilities);
+            updateEmptyMessages(facilities);
         }
-        
-        // Load admin grid data from server
-        async function loadAdminGridData() {
-            try {
-                const facilities = await serverAPI.getFacilities();
-                adminGridContainer.innerHTML = '';
-                
-                facilities.forEach(facility => {
-                    const card = document.createElement('div');
-                    card.className = 'facility-card admin-card';
-                    card.setAttribute('data-id', facility.id);
-                    
-                    card.innerHTML = `
-                        <div class="card-icon" onclick="openIconModal(${facility.id})">
-                            <i class="${facility.icon}"></i>
-                        </div>
-                        <div class="card-group">${facility.group}</div>
-                        <div class="card-title" onclick="makeTitleEditable(${facility.id})">${facility.description}</div>
-                        <div class="card-group" onclick="makeGroupEditable(${facility.id})">${facility.group}</div>
-                        <div class="card-actions">
-                            <button class="btn-edit" onclick="makeUrlEditable(${facility.id})">
-                                <i class="fas fa-edit"></i> Edit URL
-                            </button>
-                            <button class="btn-delete" onclick="deleteFacility(${facility.id})">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    `;
-                    
-                    adminGridContainer.appendChild(card);
-                });
-            } catch (error) {
-                console.error('Error loading admin grid data:', error);
-                throw error;
-            }
-        }
-        
-        // Make title editable
-        function makeTitleEditable(id) {
-            const card = document.querySelector(`.admin-card[data-id="${id}"]`);
-            const titleElement = card.querySelector('.card-title');
-            const currentText = titleElement.textContent;
-            
-            // Create input element
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.value = currentText;
-            input.className = 'editable-input';
-            
-            // Replace title with input
-            titleElement.replaceWith(input);
-            input.focus();
-            
-            // Save on blur or enter key
-            input.addEventListener('blur', () => {
-                saveTitle(id, input.value);
-            });
-            
-            input.addEventListener('keyup', (e) => {
-                if (e.key === 'Enter') {
-                    saveTitle(id, input.value);
-                }
-            });
-        }
-        
-        // Save title after editing
-        async function saveTitle(id, newTitle) {
-            if (newTitle.trim()) {
-                await updateFacility(id, 'description', newTitle.trim());
-            }
-        }
-        
-        // Make group editable
-        function makeGroupEditable(id) {
-            const card = document.querySelector(`.admin-card[data-id="${id}"]`);
-            const groupElement = card.querySelector('.card-group');
-            const currentText = groupElement.textContent;
-            
-            // Create input element
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.value = currentText;
-            input.className = 'editable-input';
-            
-            // Replace group with input
-            groupElement.replaceWith(input);
-            input.focus();
-            
-            // Save on blur or enter key
-            input.addEventListener('blur', () => {
-                saveGroup(id, input.value);
-            });
-            
-            input.addEventListener('keyup', (e) => {
-                if (e.key === 'Enter') {
-                    saveGroup(id, input.value);
-                }
-            });
-        }
-        
-        // Save group after editing
-        async function saveGroup(id, newGroup) {
-            if (newGroup.trim()) {
-                await updateFacility(id, 'group', newGroup.trim());
-            }
-        }
-        
-        // Make URL editable
-        function makeUrlEditable(id) {
-            const card = document.querySelector(`.admin-card[data-id="${id}"]`);
-            const urlElement = card.querySelector('.card-actions');
-            const currentUrl = getFacilityUrl(id);
-            
-            // Create input element
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.value = currentUrl;
-            input.className = 'editable-input';
-            input.placeholder = 'Enter new URL';
-            
-            // Create save button
-            const saveBtn = document.createElement('button');
-            saveBtn.className = 'btn-edit';
-            saveBtn.innerHTML = '<i class="fas fa-save"></i> Save URL';
-            saveBtn.onclick = () => saveUrl(id, input.value);
-            
-            // Create cancel button
-            const cancelBtn = document.createElement('button');
-            cancelBtn.className = 'btn-delete';
-            cancelBtn.innerHTML = '<i class="fas fa-times"></i> Cancel';
-            cancelBtn.onclick = () => loadAdminGridData();
-            
-            // Replace actions with input and buttons
-            urlElement.innerHTML = '';
-            urlElement.appendChild(input);
-            urlElement.appendChild(saveBtn);
-            urlElement.appendChild(cancelBtn);
-            input.focus();
-        }
-        
-        // Get facility URL by ID
-        async function getFacilityUrl(id) {
-            try {
-                const facilities = await serverAPI.getFacilities();
-                const facility = facilities.find(f => f.id === id);
-                return facility ? facility.url : '';
-            } catch (error) {
-                console.error('Error getting facility URL:', error);
-                return '';
-            }
-        }
-        
-        // Save URL after editing
-        async function saveUrl(id, newUrl) {
-            if (newUrl.trim() && isValidUrl(newUrl)) {
-                await updateFacility(id, 'url', newUrl.trim());
-            } else {
-                showNotification('Please enter a valid URL', 'error');
-                loadAdminGridData(); // Reload to revert changes
-            }
-        }
-        
-        // Open icon selection modal
-        async function openIconModal(id) {
-            currentEditId = id;
-            try {
-                const facilities = await serverAPI.getFacilities();
-                const facility = facilities.find(f => f.id === id);
-                
-                if (facility) {
-                    selectedIcon = facility.icon;
-                    highlightSelectedIcon();
-                }
-                
-                iconModal.style.display = 'flex';
-            } catch (error) {
-                showNotification('Error loading facility data', 'error');
-            }
-        }
-        
-        // Populate icon options in modal
-        function populateIconOptions() {
-            iconOptionsContainer.innerHTML = '';
-            
-            iconOptions.forEach(iconClass => {
-                const iconOption = document.createElement('div');
-                iconOption.className = 'icon-option';
-                if (iconClass === selectedIcon) {
-                    iconOption.classList.add('selected');
-                }
-                
-                iconOption.innerHTML = `
-                    <i class="${iconClass}"></i>
-                    <span>${iconClass.split('fa-')[1]}</span>
+
+        function renderHomeGrid(facilities) {
+            homeGridContainer.innerHTML = '';
+            const filtered = currentGroupFilter === 'all'
+                ? facilities
+                : facilities.filter(f => f.group === currentGroupFilter);
+
+            filtered.forEach(facility => {
+                const card = document.createElement('a');
+                card.href = facility.url;
+                card.target = '_blank';
+                card.className = 'facility-card block bg-white p-6 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-1 transition-all text-center';
+                card.innerHTML = `
+                    <div class="card-icon text-5xl text-blue-500 mb-4"><i class="${facility.icon}"></i></div>
+                    <div class="card-title text-slate-800 font-bold text-lg mb-2 truncate" title="${facility.description}">${facility.description}</div>
+                    <div class="card-group text-xs text-slate-500 bg-slate-100 rounded-full inline-block px-3 py-1">${facility.group}</div>
                 `;
-                
-                iconOption.addEventListener('click', () => {
-                    selectedIcon = iconClass;
-                    highlightSelectedIcon();
-                });
-                
-                iconOptionsContainer.appendChild(iconOption);
+                homeGridContainer.appendChild(card);
             });
         }
-        
-        // Highlight selected icon in modal
-        function highlightSelectedIcon() {
-            const allOptions = document.querySelectorAll('.icon-option');
-            allOptions.forEach(option => {
-                option.classList.remove('selected');
-                const iconClass = option.querySelector('i').className;
-                if (iconClass === selectedIcon) {
-                    option.classList.add('selected');
-                }
+
+        function renderAdminGrid(facilities) {
+            adminGridContainer.innerHTML = '';
+            facilities.forEach(facility => {
+                const card = document.createElement('div');
+                card.className = 'admin-card bg-white p-4 rounded-lg shadow-md flex flex-col items-center text-center space-y-3';
+                card.innerHTML = `
+                    <div class="card-icon text-5xl text-blue-500"><i class="${facility.icon}"></i></div>
+                    <div class="card-title text-slate-800 font-bold w-full truncate" data-field="description">${facility.description}</div>
+                    <div class="card-group text-sm text-slate-600 w-full truncate" data-field="group">${facility.group}</div>
+                    <div class="card-url text-xs text-blue-500 w-full truncate" data-field="url" title="${facility.url}">${facility.url}</div>
+                    <div class="card-actions flex gap-2 mt-2">
+                        <button class="edit-btn bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1 rounded-full transition"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="delete-btn bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded-full transition"><i class="fas fa-trash"></i> Delete</button>
+                    </div>
+                `;
+                // Add event listeners directly to the buttons
+                card.querySelector('.delete-btn').addEventListener('click', () => deleteFacility(facility.id));
+                card.querySelector('.edit-btn').addEventListener('click', (e) => {
+                    const parent = e.target.closest('.admin-card');
+                    parent.querySelectorAll('[data-field]').forEach(el => makeEditable(el, facility.id));
+                    e.target.innerHTML = '<i class="fas fa-save"></i> Save';
+                    e.target.classList.remove('bg-green-500', 'hover:bg-green-600');
+                    e.target.classList.add('bg-blue-500', 'hover:bg-blue-600');
+                    e.target.onclick = () => saveEditable(parent, facility.id);
+                });
+                adminGridContainer.appendChild(card);
             });
         }
+
+        // --- UI & Event Handlers ---
         
-        // Save selected icon
-        saveIconBtn.addEventListener('click', async () => {
-            if (currentEditId && selectedIcon) {
-                try {
-                    await updateFacility(currentEditId, 'icon', selectedIcon);
-                    iconModal.style.display = 'none';
-                } catch (error) {
-                    showNotification('Error updating icon', 'error');
-                }
-            }
-        });
-        
-        // Cancel icon selection
-        cancelIconBtn.addEventListener('click', () => {
-            iconModal.style.display = 'none';
-        });
-        
-        // Set up group filters
-        async function setupGroupFilters() {
-            try {
-                const facilities = await serverAPI.getFacilities();
-                const groups = ['all', ...new Set(facilities.map(f => f.group))];
-                
-                groupFilter.innerHTML = '';
-                
-                groups.forEach(group => {
-                    const groupBtn = document.createElement('div');
-                    groupBtn.className = `group-btn ${group === currentGroupFilter ? 'active' : ''}`;
-                    groupBtn.textContent = group === 'all' ? 'All Groups' : group;
-                    groupBtn.addEventListener('click', async () => {
-                        currentGroupFilter = group;
-                        setupGroupFilters();
-                        await loadHomeGridData();
-                    });
-                    
-                    groupFilter.appendChild(groupBtn);
-                });
-            } catch (error) {
-                console.error('Error setting up group filters:', error);
-            }
+        function makeEditable(element, id) {
+            const currentValue = element.textContent;
+            const field = element.dataset.field;
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = currentValue;
+            input.className = 'editable-input mt-1';
+            input.dataset.field = field;
+            element.replaceWith(input);
+            if (field === "description") input.focus();
         }
         
-        // Update empty message visibility
-        async function updateEmptyMessages() {
-            try {
-                const facilities = await serverAPI.getFacilities();
-                homeEmptyMessage.style.display = facilities.length === 0 ? 'block' : 'none';
-                adminEmptyMessage.style.display = facilities.length === 0 ? 'block' : 'none';
-            } catch (error) {
-                console.error('Error updating empty messages:', error);
-            }
+        async function saveEditable(card, id) {
+            const updates = {};
+            card.querySelectorAll('input[data-field]').forEach(input => {
+                updates[input.dataset.field] = input.value.trim();
+            });
+            await updateFacility(id, updates);
+            // The onSnapshot listener will handle re-rendering automatically
         }
-        
-        // Show notification
-        function showNotification(message, type) {
+
+        function setupGroupFilters(facilities) {
+            const groups = ['all', ...new Set(facilities.map(f => f.group).filter(Boolean))];
+            groupFilter.innerHTML = '';
+            groups.forEach(group => {
+                const btn = document.createElement('button');
+                btn.textContent = group === 'all' ? 'All Groups' : group;
+                btn.className = `px-4 py-1.5 text-sm rounded-full transition ${currentGroupFilter === group ? 'bg-blue-500 text-white font-semibold' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`;
+                btn.onclick = () => {
+                    currentGroupFilter = group;
+                    renderAll(facilitiesCache);
+                };
+                groupFilter.appendChild(btn);
+            });
+        }
+
+        function updateEmptyMessages(facilities) {
+            const isEmpty = facilities.length === 0;
+            homeEmptyMessage.style.display = isEmpty ? 'block' : 'none';
+            adminEmptyMessage.style.display = isEmpty ? 'block' : 'none';
+        }
+
+        function showNotification(message, type = 'success') {
             notification.textContent = message;
-            notification.className = `notification ${type} show`;
-            
+            notification.className = `fixed top-5 right-5 p-4 rounded-lg text-white shadow-lg transform transition-transform duration-300 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} translate-x-0`;
             setTimeout(() => {
-                notification.classList.remove('show');
+                notification.classList.add('translate-x-full');
             }, 3000);
         }
+
+        function setButtonLoading(button, isLoading, loadingText) {
+            button.disabled = isLoading;
+            if (isLoading) {
+                button.innerHTML = `<div class="loading mr-2"></div> ${loadingText}`;
+            } else {
+                button.innerHTML = loadingText;
+            }
+        }
         
-        // Validate URL format
-        function isValidUrl(url) {
+        function isValidUrl(string) {
             try {
-                new URL(url);
+                new URL(string);
                 return true;
-            } catch (e) {
+            } catch (_) {
                 return false;
             }
         }
+
+        function showConfirmation(message) {
+            return new Promise(resolve => {
+                // For simplicity in a single file, this is a basic confirmation.
+                // In a real app, you'd build a custom modal UI.
+                const result = window.confirm(message);
+                resolve(result);
+            });
+        }
+
+        // Tab switching logic
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+                document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+            });
+        });
+
+        // --- App Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            addBtn.addEventListener('click', addFacility);
+            signIn();
+        });
+
     </script>
 </body>
 </html>
