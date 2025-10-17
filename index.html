@@ -1,104 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facility Management Online Application</title>
-    <!-- Tailwind CSS for modern styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for icons -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Facility Management Online (GitHub-backed)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Custom styles to complement Tailwind CSS */
-        body {
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8fafc; /* Lighter gray background */
+        /* Original styles (kept mostly intact) */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%); min-height: 100vh; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .container { max-width: 1200px; width: 100%; margin: 0 auto; }
+        header { text-align: center; margin: 30px 0; padding: 20px; position: relative; }
+        h1 { color: #2c3e50; font-size: 2.4rem; margin-bottom: 6px; text-shadow: 1px 1px 3px rgba(0,0,0,0.05); }
+        .subtitle { color: #7f8c8d; font-size: 1rem; margin-bottom: 18px; }
+        .github-config { display:flex; gap:10px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:12px; }
+        .github-config input { padding:8px 10px; border-radius:6px; border:1px solid #dce4ec; }
+        .btn { padding: 10px 16px; border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; display:inline-flex; align-items:center; gap:8px; }
+        .btn-primary { background:#3498db; color:white; }
+        .btn-primary:hover { background:#2980b9; }
+        .btn-ghost { background:transparent; color:#34495e; border:1px solid #eaeff5; }
+        .main-content { background:white; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow:hidden; margin-bottom:30px; width:100%; }
+        .nav-tabs { display:flex; background:#f8fafc; border-bottom:1px solid #eaeff5; }
+        .nav-tab { padding:14px 20px; cursor:pointer; font-weight:600; color:#7f8c8d; border-bottom:3px solid transparent; transition:all 0.2s; }
+        .nav-tab.active { color:#3498db; border-bottom:3px solid #3498db; background:white; }
+        .tab-content { display:none; padding:20px; }
+        .tab-content.active { display:block; }
+        .form-section { padding:20px; background:#f8fafc; border-bottom:1px solid #eaeff5; }
+        .form-title { color:#2c3e50; margin-bottom:12px; font-size:1.2rem; display:flex; align-items:center; gap:10px; }
+        .form-row { display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; }
+        .input-group { flex:1; min-width:200px; display:flex; flex-direction:column; gap:6px; }
+        label { color:#34495e; font-weight:500; font-size:0.9rem; }
+        input, select { width:100%; padding:10px 12px; border:1px solid #dce4ec; border-radius:8px; font-size:0.95rem; }
+        input:focus, select:focus { border-color:#3498db; box-shadow:0 0 0 3px rgba(52,152,219,0.12); outline:none; }
+        .grid-section { padding:20px; overflow-x:auto; }
+        .grid-container { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:14px; }
+        .facility-card { background:white; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.06); padding:18px; display:flex; flex-direction:column; align-items:center; transition:all 0.2s; border:1px solid #eaeff5; text-decoration:none; color:inherit; }
+        .facility-card:hover { transform:translateY(-5px); box-shadow:0 8px 25px rgba(0,0,0,0.09); }
+        .card-icon { font-size:2.8rem; margin-bottom:12px; color:#3498db; border-radius:50%; width:72px; height:72px; display:flex; align-items:center; justify-content:center; background:#f8fafc; }
+        .card-title { font-size:1.05rem; font-weight:600; color:#2c3e50; margin-bottom:6px; text-align:center; width:100%; }
+        .card-group { background:#e3f2fd; color:#3498db; padding:5px 10px; border-radius:16px; font-size:0.82rem; font-weight:500; margin-bottom:10px; }
+        .empty-message { text-align:center; padding:30px; color:#7f8c8d; font-style:italic; grid-column:1 / -1; }
+        .admin-card .card-actions { display:flex; gap:10px; margin-top:10px; }
+        .btn-edit { background:#2ecc71; color:white; padding:8px 12px; border-radius:6px; border:none; }
+        .btn-delete { background:#e74c3c; color:white; padding:8px 12px; border-radius:6px; border:none; }
+        footer { text-align:center; padding:12px; color:#7f8c8d; font-size:0.9rem; width:100%; }
+        .notification { position:fixed; top:20px; right:20px; padding:12px 18px; border-radius:8px; color:white; font-weight:600; box-shadow:0 6px 18px rgba(0,0,0,0.12); transform:translateX(150%); transition:transform .25s ease; z-index:1000; }
+        .notification.show { transform:translateX(0); }
+        .notification.success { background:#2ecc71; }
+        .notification.error { background:#e74c3c; }
+        @media (max-width:1024px) { .grid-container { grid-template-columns:repeat(2,1fr); } }
+        @media (max-width:768px) {
+            .form-row { flex-direction:column; gap:10px; }
+            .grid-container { grid-template-columns:1fr; }
+            .nav-tabs { flex-direction:column; }
+            .nav-tab { border-bottom:1px solid #eaeff5; border-left:3px solid transparent; }
+            .nav-tab.active { border-left:3px solid #3498db; }
         }
-        .nav-tab.active {
-            border-bottom-color: #3b82f6; /* Tailwind blue-500 */
-            color: #3b82f6;
-            background-color: white;
-        }
-        .loading {
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        /* Style for editable input fields */
-        .editable-input {
-            width: 100%;
-            padding: 8px 12px;
-            border: 2px solid #3b82f6;
-            border-radius: 6px;
-            font-size: 1rem;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-            outline: none;
-        }
+        .modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2000; align-items:center; justify-content:center; }
+        .modal-content { background:white; padding:20px; border-radius:10px; width:90%; max-width:520px; box-shadow:0 10px 30px rgba(0,0,0,0.18); }
+        .icon-options { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:12px 0; }
+        .icon-option { display:flex; flex-direction:column; align-items:center; padding:10px; border-radius:8px; cursor:pointer; }
+        .icon-option.selected { background:#e3f2fd; border:2px solid #3498db; }
+        .icon-option i { font-size:1.6rem; color:#3498db; }
+        .editable-input { width:100%; padding:8px 10px; border:1px solid #3498db; border-radius:6px; font-size:1rem; }
+        .group-selector { display:flex; gap:10px; margin-bottom:10px; flex-wrap:wrap; }
+        .group-btn { padding:8px 12px; background:#f8fafc; border:1px solid #eaeff5; border-radius:20px; cursor:pointer; transition:all .15s; font-size:0.9rem; }
+        .group-btn.active { background:#3498db; color:white; border-color:#3498db; }
+        .loading { display:inline-block; width:18px; height:18px; border:3px solid rgba(255,255,255,.3); border-radius:50%; border-top-color:#fff; animation:spin 1s linear infinite; margin-right:8px; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+        .small-note { font-size:0.85rem; color:#7f8c8d; }
     </style>
 </head>
-<body class="bg-slate-50">
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-building"></i> Facility Management (GitHub-backed)</h1>
+            <p class="subtitle">Data is stored in a GitHub repository file (no localStorage for facility data)</p>
 
-    <div class="container mx-auto p-4 md:p-8 max-w-7xl">
-        <header class="text-center my-8">
-            <h1 class="text-3xl md:text-5xl font-bold text-slate-800 flex items-center justify-center gap-4">
-                <i class="fas fa-building text-blue-500"></i>
-                <span>Facility Management</span>
-            </h1>
-            <p class="text-slate-500 mt-2 text-lg">Your central hub for all facility applications, securely stored on the server.</p>
+            <div class="github-config" id="github-config">
+                <!-- User provides repo information & token. Token is kept in-memory only during session. -->
+                <input id="gh-owner" placeholder="owner (user or org)" />
+                <input id="gh-repo" placeholder="repo name" />
+                <input id="gh-path" placeholder="path (data/facilities.json)" value="data/facilities.json" />
+                <input id="gh-branch" placeholder="branch" value="main" style="width:110px" />
+                <input id="gh-token" placeholder="Personal Access Token (repo scope)" type="password" style="min-width:260px" />
+                <button class="btn btn-primary" id="btn-connect"><i class="fas fa-link"></i> Connect</button>
+                <button class="btn btn-ghost" id="btn-clear"><i class="fas fa-eraser"></i> Clear</button>
+            </div>
+
+            <p class="small-note" style="margin-top:10px;">
+                Security note: For demos you may paste a Personal Access Token (PAT). For production, use a server-side component or a GitHub App. PAT will not be stored in localStorage by this page.
+            </p>
         </header>
 
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
-            <div class="border-b border-slate-200">
-                <div class="nav-tabs flex">
-                    <div class="nav-tab active cursor-pointer py-4 px-6 font-semibold text-slate-500 border-b-2 border-transparent transition-all" data-tab="home">Home</div>
-                    <div class="nav-tab cursor-pointer py-4 px-6 font-semibold text-slate-500 border-b-2 border-transparent transition-all" data-tab="admin">Admin</div>
-                </div>
+        <div class="main-content">
+            <div class="nav-tabs">
+                <div class="nav-tab active" data-tab="home">Home</div>
+                <div class="nav-tab" data-tab="admin">Admin</div>
             </div>
 
-            <!-- Home Tab Content -->
-            <div class="tab-content active p-4 md:p-8" id="home-tab">
+            <!-- Home -->
+            <div class="tab-content active" id="home-tab">
                 <div class="grid-section">
-                    <h2 class="text-2xl font-bold text-slate-700 flex items-center gap-3 mb-4"><i class="fas fa-th-large text-blue-500"></i> Application List</h2>
-                    <div class="group-selector flex flex-wrap gap-2 mb-6" id="group-filter">
-                        <!-- Group filters will be added dynamically -->
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="home-grid-container">
-                        <!-- Grid cards will be added here dynamically -->
-                    </div>
-                    <div id="home-empty-message" class="text-center py-16 text-slate-500 hidden">
-                        <i class="fas fa-info-circle text-5xl mb-4 text-slate-400"></i>
-                        <p class="text-lg">No facilities found. An administrator needs to add them in the 'Admin' tab.</p>
+                    <h2 class="form-title"><i class="fas fa-th-large"></i> Application List</h2>
+                    <div class="group-selector" id="group-filter"></div>
+                    <div class="grid-container" id="home-grid-container"></div>
+                    <div id="home-empty-message" class="empty-message">
+                        <i class="fas fa-info-circle" style="font-size:2.4rem; margin-bottom:12px;"></i>
+                        <p>No facilities added yet. Go to Admin page to add new facilities (connect GitHub first).</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Admin Tab Content -->
-            <div class="tab-content hidden p-4 md:p-8" id="admin-tab">
-                <div class="form-section bg-slate-50 p-6 rounded-lg border border-slate-200 mb-8">
-                    <h2 class="text-2xl font-bold text-slate-700 flex items-center gap-3 mb-6"><i class="fas fa-plus-circle text-blue-500"></i> Add New Application</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+            <!-- Admin -->
+            <div class="tab-content" id="admin-tab">
+                <div class="form-section">
+                    <h2 class="form-title"><i class="fas fa-plus-circle"></i> Add New Application</h2>
+                    <div class="form-row">
                         <div class="input-group">
-                            <label for="description" class="block mb-1 text-sm font-medium text-slate-600">Description</label>
-                            <input type="text" id="description" placeholder="e.g., HVAC Control Panel" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                            <label for="description">Description</label>
+                            <input type="text" id="description" placeholder="Enter Application description" />
                         </div>
                         <div class="input-group">
-                            <label for="url" class="block mb-1 text-sm font-medium text-slate-600">URL Link</label>
-                            <input type="text" id="url" placeholder="https://..." class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                            <label for="url">URL Link</label>
+                            <input type="text" id="url" placeholder="https://example.com" />
                         </div>
                         <div class="input-group">
-                            <label for="group" class="block mb-1 text-sm font-medium text-slate-600">Group</label>
-                            <input type="text" id="group" placeholder="e.g., Maintenance" class="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                            <label for="group">Group</label>
+                            <input type="text" id="group" placeholder="Enter group name" />
                         </div>
-                         <div class="input-group">
-                            <label for="icon" class="block mb-1 text-sm font-medium text-slate-600">Icon</label>
-                            <select id="icon" class="w-full p-3 border border-slate-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition">
+                        <div class="input-group">
+                            <label for="icon">Icon</label>
+                            <select id="icon">
                                 <option value="fas fa-building">Building</option>
                                 <option value="fas fa-wrench">Wrench</option>
                                 <option value="fas fa-tools">Tools</option>
@@ -111,50 +144,58 @@
                                 <option value="fas fa-camera">Camera</option>
                             </select>
                         </div>
-                        <button id="add-btn" class="w-full bg-blue-500 text-white p-3 rounded-lg font-semibold hover:bg-blue-600 transition-all shadow hover:shadow-md flex items-center justify-center gap-2">
-                            <i class="fas fa-plus"></i> Add
-                        </button>
+                        <button class="btn btn-primary" id="add-btn"><i class="fas fa-plus"></i> Add Application</button>
                     </div>
                 </div>
 
                 <div class="grid-section">
-                     <h2 class="text-2xl font-bold text-slate-700 flex items-center gap-3 mb-6"><i class="fas fa-list text-blue-500"></i> Manage Applications</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6" id="admin-grid-container">
-                        <!-- Admin grid cards will be added here dynamically -->
-                    </div>
-                    <div id="admin-empty-message" class="text-center py-16 text-slate-500 hidden">
-                        <i class="fas fa-info-circle text-5xl mb-4 text-slate-400"></i>
-                        <p class="text-lg">No facilities added yet. Start by adding a new one above.</p>
+                    <h2 class="form-title"><i class="fas fa-list"></i> Manage Applications</h2>
+                    <div class="grid-container" id="admin-grid-container"></div>
+                    <div id="admin-empty-message" class="empty-message">
+                        <i class="fas fa-info-circle" style="font-size:2.4rem; margin-bottom:12px;"></i>
+                        <p>No facilities added yet. Start by adding a new facility above (connect GitHub first).</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <footer class="text-center py-6">
-            <p class="text-slate-500">Facility Management &copy; 2025 | All data stored securely on the server.</p>
+        <footer>
+            <p>Facility Management Online Application &copy; 2023 — data stored in GitHub file</p>
         </footer>
     </div>
 
-    <!-- Notification Toast -->
-    <div id="notification" class="fixed top-5 right-5 p-4 rounded-lg text-white shadow-lg transform translate-x-full transition-transform duration-300"></div>
+    <div class="notification" id="notification"></div>
 
-    <script type="module">
-        // Import Firebase modules
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot, addDoc, doc, updateDoc, deleteDoc, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <!-- Icon Modal (kept) -->
+    <div class="modal" id="icon-modal">
+        <div class="modal-content">
+            <h2 class="modal-title">Select an Icon</h2>
+            <div class="icon-options" id="icon-options"></div>
+            <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:12px;">
+                <button class="btn btn-ghost" id="cancel-icon-btn">Cancel</button>
+                <button class="btn btn-primary" id="save-icon-btn">Save</button>
+            </div>
+        </div>
+    </div>
 
-        // --- Firebase Configuration ---
-        // IMPORTANT: Create a Firebase project and paste your web app's configuration here.
-        // Go to Project settings > General > Your apps > Web app > Firebase SDK snippet > Config
-        const firebaseConfig = JSON.parse(
-            typeof __firebase_config !== 'undefined' 
-            ? __firebase_config 
-            : '{ "apiKey": "YOUR_API_KEY", "authDomain": "YOUR_PROJECT_ID.firebaseapp.com", "projectId": "YOUR_PROJECT_ID", "storageBucket": "YOUR_PROJECT_ID.appspot.com", "messagingSenderId": "YOUR_SENDER_ID", "appId": "YOUR_APP_ID" }'
-        );
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'facility-management-app';
+    <script>
+        // -------------------------
+        // GitHub-backed storage notes:
+        // - This implementation stores facility data in a JSON file in the specified GitHub repo (path).
+        // - The page requires a Personal Access Token (PAT) with repo (or public_repo if storing in a public repo) scope.
+        // - The PAT is kept in-memory only for the current session and NOT saved to localStorage by this app.
+        // - For production use, you should move updates to a server or use a GitHub App to avoid exposing secrets in the browser.
+        // -------------------------
 
-        // --- DOM Elements ---
+        // DOM refs
+        const ownerInput = document.getElementById('gh-owner');
+        const repoInput = document.getElementById('gh-repo');
+        const pathInput = document.getElementById('gh-path');
+        const branchInput = document.getElementById('gh-branch');
+        const tokenInput = document.getElementById('gh-token');
+        const btnConnect = document.getElementById('btn-connect');
+        const btnClear = document.getElementById('btn-clear');
+
         const homeGridContainer = document.getElementById('home-grid-container');
         const adminGridContainer = document.getElementById('admin-grid-container');
         const addBtn = document.getElementById('add-btn');
@@ -165,271 +206,501 @@
         const homeEmptyMessage = document.getElementById('home-empty-message');
         const adminEmptyMessage = document.getElementById('admin-empty-message');
         const notification = document.getElementById('notification');
+        const iconModal = document.getElementById('icon-modal');
+        const iconOptionsContainer = document.getElementById('icon-options');
+        const cancelIconBtn = document.getElementById('cancel-icon-btn');
+        const saveIconBtn = document.getElementById('save-icon-btn');
         const groupFilter = document.getElementById('group-filter');
+        const navTabs = document.querySelectorAll('.nav-tab');
+        const tabContents = document.querySelectorAll('.tab-content');
 
-        // --- App State ---
+        // State
+        let ghConfig = null; // { owner, repo, path, branch, token }
+        let currentEditId = null;
+        let selectedIcon = null;
         let currentGroupFilter = 'all';
-        let facilitiesCache = []; // Local cache of facilities
-        let facilitiesColRef; // Firestore collection reference
-        let unsubscribe; // To detach the onSnapshot listener
+        const iconOptions = [
+            'fas fa-building', 'fas fa-wrench', 'fas fa-tools', 'fas fa-laptop',
+            'fas fa-server', 'fas fa-network-wired', 'fas fa-warehouse', 'fas fa-door-closed',
+            'fas fa-lightbulb', 'fas fa-camera', 'fas fa-desktop', 'fas fa-plug',
+            'fas fa-wifi', 'fas fa-thermometer-half', 'fas fa-shield-alt', 'fas fa-key'
+        ];
 
-        // --- Firebase Initialization ---
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-        setLogLevel('debug');
+        // Helper: show notification
+        function showNotification(msg, type='success') {
+            notification.textContent = msg;
+            notification.className = `notification ${type} show`;
+            setTimeout(() => notification.classList.remove('show'), 3000);
+        }
 
-        // --- Authentication ---
-        onAuthStateChanged(auth, user => {
-            if (user) {
-                console.log("Authenticated User ID:", user.uid);
-                // Define the collection path using the user's unique ID for data security
-                facilitiesColRef = collection(db, `artifacts/${appId}/users/${user.uid}/facilities`);
-                listenForFacilities(); // Start listening for real-time data
-            } else {
-                console.log("User is not authenticated.");
-                if (unsubscribe) unsubscribe(); // Stop listening if user logs out
-            }
-        });
+        // Helper: basic URL check
+        function isValidUrl(url) {
+            try { new URL(url); return true; } catch (e) { return false; }
+        }
 
-        async function signIn() {
+        // GitHub helper utilities
+        function getHeaders() {
+            return {
+                'Accept': 'application/vnd.github.v3+json',
+                'Authorization': `token ${ghConfig.token}`
+            };
+        }
+
+        // base64 encode Unicode-safe
+        function toBase64Unicode(str) {
+            return btoa(unescape(encodeURIComponent(str)));
+        }
+        function fromBase64Unicode(b64) {
             try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (error) {
-                console.error("Authentication Error:", error);
-                showNotification("Authentication failed. Please check your Firebase setup.", "error");
+                return decodeURIComponent(escape(atob(b64)));
+            } catch (e) {
+                // fallback
+                return atob(b64);
             }
         }
 
-        // --- Real-time Data Listener ---
-        function listenForFacilities() {
-            if (unsubscribe) unsubscribe();
-            if (!facilitiesColRef) return;
+        // GitHub File API wrapper
+        const ghAPI = {
+            // fetch the file contents; returns { content: string, sha } or null if not exists
+            async getFile() {
+                const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/${encodeURIComponent(ghConfig.path)}?ref=${encodeURIComponent(ghConfig.branch)}`;
+                const res = await fetch(url, { headers: getHeaders() });
+                if (res.status === 404) return null;
+                if (!res.ok) {
+                    const txt = await res.text();
+                    throw new Error(`GitHub getFile failed: ${res.status} ${txt}`);
+                }
+                const json = await res.json();
+                const content = fromBase64Unicode(json.content.replace(/\n/g, ''));
+                return { content, sha: json.sha };
+            },
 
-            unsubscribe = onSnapshot(facilitiesColRef, (snapshot) => {
-                let facilities = [];
-                snapshot.forEach(doc => {
-                    facilities.push({ ...doc.data(), id: doc.id });
+            // create or update file with newContent (string). Pass sha to update existing file.
+            async putFile(newContent, message = 'Update facilities') {
+                const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/${encodeURIComponent(ghConfig.path)}`;
+                // get existing file to set sha (create if null)
+                const existing = await ghAPI.getFile();
+                const body = {
+                    message,
+                    content: toBase64Unicode(newContent),
+                    branch: ghConfig.branch
+                };
+                if (existing && existing.sha) body.sha = existing.sha;
+                const res = await fetch(url, {
+                    method: 'PUT',
+                    headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
                 });
-                // Sort in memory to avoid needing complex Firestore indexes
-                facilities.sort((a, b) => (a.group || '').localeCompare(b.group || ''));
-                facilitiesCache = facilities;
-                renderAll(facilitiesCache);
-            }, (error) => {
-                console.error("Error listening to facilities:", error);
-                showNotification("Error fetching real-time data.", "error");
-            });
+                if (!res.ok) {
+                    const txt = await res.text();
+                    throw new Error(`GitHub putFile failed: ${res.status} ${txt}`);
+                }
+                return await res.json();
+            },
+
+            // delete the file (used only if you want to remove whole file)
+            async deleteFile(message = 'Delete file') {
+                const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/${encodeURIComponent(ghConfig.path)}`;
+                const existing = await ghAPI.getFile();
+                if (!existing || !existing.sha) return null;
+                const body = { message, sha: existing.sha, branch: ghConfig.branch };
+                const res = await fetch(url, {
+                    method: 'DELETE',
+                    headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                if (!res.ok) {
+                    const txt = await res.text();
+                    throw new Error(`GitHub deleteFile failed: ${res.status} ${txt}`);
+                }
+                return await res.json();
+            }
+        };
+
+        // Server API mapped to GitHub file
+        const serverAPI = {
+            async getFacilities() {
+                if (!ghConfig) throw new Error('GitHub not configured');
+                const file = await ghAPI.getFile();
+                if (!file) return []; // treat missing file as empty
+                try {
+                    const data = JSON.parse(file.content || '[]');
+                    return Array.isArray(data) ? data : [];
+                } catch (e) {
+                    console.error('Invalid JSON in GitHub file, returning empty array', e);
+                    return [];
+                }
+            },
+
+            async addFacility(facility) {
+                if (!ghConfig) throw new Error('GitHub not configured');
+                // get current facilities, push new, write back
+                const facilities = await this.getFacilities();
+                facility.id = Date.now(); // simple unique ID
+                facilities.push(facility);
+                await ghAPI.putFile(JSON.stringify(facilities, null, 2), `Add facility ${facility.description}`);
+                return facility;
+            },
+
+            async updateFacility(id, updates) {
+                if (!ghConfig) throw new Error('GitHub not configured');
+                const facilities = await this.getFacilities();
+                const idx = facilities.findIndex(f => f.id === id);
+                if (idx === -1) throw new Error('Facility not found');
+                facilities[idx] = { ...facilities[idx], ...updates };
+                await ghAPI.putFile(JSON.stringify(facilities, null, 2), `Update facility ${id}`);
+                return facilities[idx];
+            },
+
+            async deleteFacility(id) {
+                if (!ghConfig) throw new Error('GitHub not configured');
+                let facilities = await this.getFacilities();
+                facilities = facilities.filter(f => f.id !== id);
+                await ghAPI.putFile(JSON.stringify(facilities, null, 2), `Delete facility ${id}`);
+                return { success: true };
+            }
+        };
+
+        // UI logic (mostly reused from original but using serverAPI)
+        async function loadHomeGridData() {
+            try {
+                const facilities = await serverAPI.getFacilities();
+                homeGridContainer.innerHTML = '';
+
+                const filteredFacilities = currentGroupFilter === 'all'
+                    ? facilities
+                    : facilities.filter(fac => fac.group === currentGroupFilter);
+
+                filteredFacilities.forEach(facility => {
+                    const card = document.createElement('a');
+                    card.className = 'facility-card';
+                    card.href = facility.url;
+                    card.target = '_blank';
+                    card.innerHTML = `
+                        <div class="card-icon"><i class="${facility.icon}"></i></div>
+                        <div class="card-group">${facility.group}</div>
+                        <div class="card-title">${facility.description}</div>
+                    `;
+                    homeGridContainer.appendChild(card);
+                });
+            } catch (e) {
+                console.error(e);
+                showNotification('Error loading facilities (check GitHub config)', 'error');
+                homeGridContainer.innerHTML = '';
+            }
         }
-        
-        // --- Firestore CRUD Functions ---
-        async function addFacility() {
+
+        async function loadAdminGridData() {
+            try {
+                const facilities = await serverAPI.getFacilities();
+                adminGridContainer.innerHTML = '';
+
+                facilities.forEach(facility => {
+                    const card = document.createElement('div');
+                    card.className = 'facility-card admin-card';
+                    card.setAttribute('data-id', facility.id);
+                    card.innerHTML = `
+                        <div class="card-icon" style="cursor:pointer"><i class="${facility.icon}"></i></div>
+                        <div class="card-group">${facility.group}</div>
+                        <div class="card-title" style="cursor:pointer">${facility.description}</div>
+                        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;justify-content:center">
+                            <button class="btn-edit" data-action="edit-url" data-id="${facility.id}"><i class="fas fa-edit"></i> Edit URL</button>
+                            <button class="btn-edit" data-action="edit-title" data-id="${facility.id}"><i class="fas fa-edit"></i> Edit Title</button>
+                            <button class="btn-edit" data-action="edit-group" data-id="${facility.id}"><i class="fas fa-tag"></i> Edit Group</button>
+                            <button class="btn-delete" data-action="delete" data-id="${facility.id}"><i class="fas fa-trash"></i> Delete</button>
+                        </div>
+                    `;
+                    adminGridContainer.appendChild(card);
+                });
+            } catch (e) {
+                console.error(e);
+                showNotification('Error loading admin grid (check GitHub config)', 'error');
+                adminGridContainer.innerHTML = '';
+            }
+        }
+
+        async function addFacility(description, url, group, icon) {
+            const newFacility = { description, url, group, icon };
+            await serverAPI.addFacility(newFacility);
+            await reloadAll();
+            showNotification('Facility added', 'success');
+        }
+
+        async function deleteFacilityById(id) {
+            if (!confirm('Are you sure you want to delete this facility?')) return;
+            try {
+                await serverAPI.deleteFacility(id);
+                await reloadAll();
+                showNotification('Facility deleted', 'success');
+            } catch (e) {
+                console.error(e);
+                showNotification('Error deleting (check GitHub config)', 'error');
+            }
+        }
+
+        async function updateFacilityById(id, field, value) {
+            try {
+                await serverAPI.updateFacility(id, { [field]: value });
+                await reloadAll();
+                showNotification('Facility updated', 'success');
+            } catch (e) {
+                console.error(e);
+                showNotification('Error updating (check GitHub config)', 'error');
+            }
+        }
+
+        // Utility to reload both lists & groups
+        async function reloadAll() {
+            await setupGroupFilters();
+            await loadHomeGridData();
+            await loadAdminGridData();
+            await updateEmptyMessages();
+        }
+
+        // Event wiring
+        addBtn.addEventListener('click', async () => {
+            if (!ghConfig) { showNotification('Please connect to GitHub first', 'error'); return; }
             const description = descriptionInput.value.trim();
             const url = urlInput.value.trim();
             const group = groupInput.value.trim() || 'General';
             const icon = iconSelect.value;
-
-            if (!description || !url) {
-                return showNotification('Description and URL are required.', 'error');
-            }
-            if (!isValidUrl(url)) {
-                return showNotification('Please enter a valid URL (e.g., https://example.com)', 'error');
-            }
-            
-            setButtonLoading(addBtn, true, 'Adding...');
+            if (!description) { showNotification('Please enter a description', 'error'); return; }
+            if (!isValidUrl(url)) { showNotification('Please enter a valid URL (include http:// or https://)', 'error'); return; }
+            addBtn.disabled = true;
+            addBtn.innerHTML = '<span class="loading"></span> Adding...';
             try {
-                await addDoc(facilitiesColRef, { description, url, group, icon, createdAt: Date.now() });
-                showNotification('Application added successfully!', 'success');
-                descriptionInput.value = '';
-                urlInput.value = '';
-                groupInput.value = '';
-            } catch (error) {
-                console.error("Error adding facility: ", error);
-                showNotification('Failed to add application.', 'error');
+                await addFacility(description, url, group, icon);
+                descriptionInput.value = ''; urlInput.value = ''; groupInput.value = '';
+            } catch (e) {
+                console.error(e);
+                showNotification('Error adding facility (check GitHub config)', 'error');
             } finally {
-                setButtonLoading(addBtn, false, '<i class="fas fa-plus"></i> Add');
+                addBtn.disabled = false;
+                addBtn.innerHTML = '<i class="fas fa-plus"></i> Add Application';
             }
-        }
+        });
 
-        async function deleteFacility(id) {
-            // Using a custom modal instead of confirm()
-            if (!await showConfirmation('Are you sure you want to delete this facility?')) return;
-            try {
-                const docRef = doc(db, facilitiesColRef.path, id);
-                await deleteDoc(docRef);
-                showNotification('Application deleted.', 'success');
-            } catch (error) {
-                console.error("Error deleting facility: ", error);
-                showNotification('Failed to delete application.', 'error');
+        // Admin grid click handling using event delegation
+        adminGridContainer.addEventListener('click', async (e) => {
+            const target = e.target.closest('button');
+            if (!target) return;
+            const action = target.getAttribute('data-action');
+            const id = Number(target.getAttribute('data-id'));
+            if (action === 'delete') {
+                await deleteFacilityById(id);
+            } else if (action === 'edit-title') {
+                makeTitleEditable(id);
+            } else if (action === 'edit-group') {
+                makeGroupEditable(id);
+            } else if (action === 'edit-url') {
+                makeUrlEditable(id);
             }
-        }
+        });
 
-        async function updateFacility(id, data) {
-             try {
-                const docRef = doc(db, facilitiesColRef.path, id);
-                await updateDoc(docRef, data);
-                showNotification('Application updated.', 'success');
-            } catch (error) {
-                console.error("Error updating facility: ", error);
-                showNotification('Failed to update application.', 'error');
-            }
-        }
-
-        // --- Rendering Logic ---
-        function renderAll(facilities) {
-            renderHomeGrid(facilities);
-            renderAdminGrid(facilities);
-            setupGroupFilters(facilities);
-            updateEmptyMessages(facilities);
-        }
-
-        function renderHomeGrid(facilities) {
-            homeGridContainer.innerHTML = '';
-            const filtered = currentGroupFilter === 'all'
-                ? facilities
-                : facilities.filter(f => f.group === currentGroupFilter);
-
-            filtered.forEach(facility => {
-                const card = document.createElement('a');
-                card.href = facility.url;
-                card.target = '_blank';
-                card.className = 'facility-card block bg-white p-6 rounded-lg shadow-md hover:shadow-xl hover:-translate-y-1 transition-all text-center';
-                card.innerHTML = `
-                    <div class="card-icon text-5xl text-blue-500 mb-4"><i class="${facility.icon}"></i></div>
-                    <div class="card-title text-slate-800 font-bold text-lg mb-2 truncate" title="${facility.description}">${facility.description}</div>
-                    <div class="card-group text-xs text-slate-500 bg-slate-100 rounded-full inline-block px-3 py-1">${facility.group}</div>
-                `;
-                homeGridContainer.appendChild(card);
-            });
-        }
-
-        function renderAdminGrid(facilities) {
-            adminGridContainer.innerHTML = '';
-            facilities.forEach(facility => {
-                const card = document.createElement('div');
-                card.className = 'admin-card bg-white p-4 rounded-lg shadow-md flex flex-col items-center text-center space-y-3';
-                card.innerHTML = `
-                    <div class="card-icon text-5xl text-blue-500"><i class="${facility.icon}"></i></div>
-                    <div class="card-title text-slate-800 font-bold w-full truncate" data-field="description">${facility.description}</div>
-                    <div class="card-group text-sm text-slate-600 w-full truncate" data-field="group">${facility.group}</div>
-                    <div class="card-url text-xs text-blue-500 w-full truncate" data-field="url" title="${facility.url}">${facility.url}</div>
-                    <div class="card-actions flex gap-2 mt-2">
-                        <button class="edit-btn bg-green-500 hover:bg-green-600 text-white text-xs px-3 py-1 rounded-full transition"><i class="fas fa-edit"></i> Edit</button>
-                        <button class="delete-btn bg-red-500 hover:bg-red-600 text-white text-xs px-3 py-1 rounded-full transition"><i class="fas fa-trash"></i> Delete</button>
-                    </div>
-                `;
-                // Add event listeners directly to the buttons
-                card.querySelector('.delete-btn').addEventListener('click', () => deleteFacility(facility.id));
-                card.querySelector('.edit-btn').addEventListener('click', (e) => {
-                    const parent = e.target.closest('.admin-card');
-                    parent.querySelectorAll('[data-field]').forEach(el => makeEditable(el, facility.id));
-                    e.target.innerHTML = '<i class="fas fa-save"></i> Save';
-                    e.target.classList.remove('bg-green-500', 'hover:bg-green-600');
-                    e.target.classList.add('bg-blue-500', 'hover:bg-blue-600');
-                    e.target.onclick = () => saveEditable(parent, facility.id);
-                });
-                adminGridContainer.appendChild(card);
-            });
-        }
-
-        // --- UI & Event Handlers ---
-        
-        function makeEditable(element, id) {
-            const currentValue = element.textContent;
-            const field = element.dataset.field;
+        // editable handlers
+        function makeTitleEditable(id) {
+            const card = document.querySelector(`.admin-card[data-id="${id}"]`);
+            const titleDiv = card.querySelector('.card-title');
+            const current = titleDiv.textContent;
             const input = document.createElement('input');
-            input.type = 'text';
-            input.value = currentValue;
-            input.className = 'editable-input mt-1';
-            input.dataset.field = field;
-            element.replaceWith(input);
-            if (field === "description") input.focus();
+            input.type = 'text'; input.value = current; input.className = 'editable-input';
+            titleDiv.replaceWith(input); input.focus();
+            input.addEventListener('blur', () => saveTitle(id, input.value));
+            input.addEventListener('keyup', (ev) => { if (ev.key === 'Enter') saveTitle(id, input.value); });
         }
-        
-        async function saveEditable(card, id) {
-            const updates = {};
-            card.querySelectorAll('input[data-field]').forEach(input => {
-                updates[input.dataset.field] = input.value.trim();
+        async function saveTitle(id, newTitle) {
+            if (newTitle.trim()) await updateFacilityById(id, 'description', newTitle.trim());
+        }
+
+        function makeGroupEditable(id) {
+            const card = document.querySelector(`.admin-card[data-id="${id}"]`);
+            const groupDiv = card.querySelector('.card-group');
+            const current = groupDiv.textContent;
+            const input = document.createElement('input');
+            input.type = 'text'; input.value = current; input.className = 'editable-input';
+            groupDiv.replaceWith(input); input.focus();
+            input.addEventListener('blur', () => saveGroup(id, input.value));
+            input.addEventListener('keyup', (ev) => { if (ev.key === 'Enter') saveGroup(id, input.value); });
+        }
+        async function saveGroup(id, newGroup) {
+            if (newGroup.trim()) await updateFacilityById(id, 'group', newGroup.trim());
+        }
+
+        async function makeUrlEditable(id) {
+            const card = document.querySelector(`.admin-card[data-id="${id}"]`);
+            const actions = card.querySelector('div[style*="display:flex"]');
+            const currentUrl = await (async () => {
+                const facilities = await serverAPI.getFacilities();
+                const f = facilities.find(x => x.id === id);
+                return f ? f.url : '';
+            })();
+            actions.innerHTML = '';
+            const input = document.createElement('input'); input.type = 'text'; input.value = currentUrl; input.className = 'editable-input'; input.placeholder = 'Enter new URL';
+            const saveBtn = document.createElement('button'); saveBtn.className = 'btn-edit'; saveBtn.innerHTML = '<i class="fas fa-save"></i> Save URL';
+            const cancelBtn = document.createElement('button'); cancelBtn.className = 'btn-delete'; cancelBtn.innerHTML = '<i class="fas fa-times"></i> Cancel';
+            actions.appendChild(input); actions.appendChild(saveBtn); actions.appendChild(cancelBtn);
+            input.focus();
+            saveBtn.onclick = async () => {
+                if (!isValidUrl(input.value.trim())) { showNotification('Please enter a valid URL', 'error'); await reloadAll(); return; }
+                await updateFacilityById(id, 'url', input.value.trim());
+            };
+            cancelBtn.onclick = async () => await loadAdminGridData();
+        }
+
+        // Icon modal (similar to original)
+        function populateIconOptions() {
+            iconOptionsContainer.innerHTML = '';
+            iconOptions.forEach(ic => {
+                const opt = document.createElement('div');
+                opt.className = 'icon-option';
+                opt.innerHTML = `<i class="${ic}"></i><span style="font-size:0.8rem;margin-top:6px">${ic.split('fa-')[1] || ic}</span>`;
+                opt.addEventListener('click', () => {
+                    selectedIcon = ic;
+                    document.querySelectorAll('.icon-option').forEach(o => o.classList.remove('selected'));
+                    opt.classList.add('selected');
+                });
+                iconOptionsContainer.appendChild(opt);
             });
-            await updateFacility(id, updates);
-            // The onSnapshot listener will handle re-rendering automatically
         }
+        populateIconOptions();
 
-        function setupGroupFilters(facilities) {
-            const groups = ['all', ...new Set(facilities.map(f => f.group).filter(Boolean))];
-            groupFilter.innerHTML = '';
-            groups.forEach(group => {
-                const btn = document.createElement('button');
-                btn.textContent = group === 'all' ? 'All Groups' : group;
-                btn.className = `px-4 py-1.5 text-sm rounded-full transition ${currentGroupFilter === group ? 'bg-blue-500 text-white font-semibold' : 'bg-slate-200 text-slate-700 hover:bg-slate-300'}`;
-                btn.onclick = () => {
-                    currentGroupFilter = group;
-                    renderAll(facilitiesCache);
-                };
-                groupFilter.appendChild(btn);
+        // Icon modal open/save/cancel handlers
+        let iconEditTargetId = null;
+        document.addEventListener('click', (e) => {
+            const iconEl = e.target.closest('.card-icon');
+            if (!iconEl) return;
+            const card = iconEl.closest('.admin-card');
+            if (!card) return;
+            const id = Number(card.getAttribute('data-id'));
+            openIconModal(id);
+        });
+
+        async function openIconModal(id) {
+            iconEditTargetId = id;
+            // set selectedIcon from facility
+            const facs = await serverAPI.getFacilities();
+            const f = facs.find(x => x.id === id);
+            selectedIcon = f ? f.icon : iconOptions[0];
+            // highlight
+            document.querySelectorAll('.icon-option').forEach(o => {
+                const i = o.querySelector('i').className;
+                if (i === selectedIcon) o.classList.add('selected'); else o.classList.remove('selected');
             });
+            iconModal.style.display = 'flex';
         }
 
-        function updateEmptyMessages(facilities) {
-            const isEmpty = facilities.length === 0;
-            homeEmptyMessage.style.display = isEmpty ? 'block' : 'none';
-            adminEmptyMessage.style.display = isEmpty ? 'block' : 'none';
-        }
-
-        function showNotification(message, type = 'success') {
-            notification.textContent = message;
-            notification.className = `fixed top-5 right-5 p-4 rounded-lg text-white shadow-lg transform transition-transform duration-300 ${type === 'success' ? 'bg-green-500' : 'bg-red-500'} translate-x-0`;
-            setTimeout(() => {
-                notification.classList.add('translate-x-full');
-            }, 3000);
-        }
-
-        function setButtonLoading(button, isLoading, loadingText) {
-            button.disabled = isLoading;
-            if (isLoading) {
-                button.innerHTML = `<div class="loading mr-2"></div> ${loadingText}`;
-            } else {
-                button.innerHTML = loadingText;
-            }
-        }
-        
-        function isValidUrl(string) {
+        saveIconBtn.addEventListener('click', async () => {
+            if (!iconEditTargetId || !selectedIcon) { iconModal.style.display = 'none'; return; }
             try {
-                new URL(string);
-                return true;
-            } catch (_) {
-                return false;
+                await updateFacilityById(iconEditTargetId, 'icon', selectedIcon);
+                iconModal.style.display = 'none';
+            } catch (e) {
+                console.error(e);
+                showNotification('Error updating icon (check GitHub config)', 'error');
+            }
+        });
+
+        cancelIconBtn.addEventListener('click', () => {
+            iconModal.style.display = 'none';
+        });
+
+        // Group filters
+        async function setupGroupFilters() {
+            try {
+                const facilities = await serverAPI.getFacilities();
+                const groups = ['all', ...new Set(facilities.map(f => f.group))];
+                groupFilter.innerHTML = '';
+                groups.forEach(g => {
+                    const btn = document.createElement('div');
+                    btn.className = `group-btn ${g === currentGroupFilter ? 'active' : ''}`;
+                    btn.textContent = g === 'all' ? 'All Groups' : g;
+                    btn.addEventListener('click', async () => {
+                        currentGroupFilter = g;
+                        await reloadAll();
+                    });
+                    groupFilter.appendChild(btn);
+                });
+            } catch (e) {
+                // if not configured yet, show only All
+                groupFilter.innerHTML = `<div class="group-btn active">All Groups</div>`;
             }
         }
 
-        function showConfirmation(message) {
-            return new Promise(resolve => {
-                // For simplicity in a single file, this is a basic confirmation.
-                // In a real app, you'd build a custom modal UI.
-                const result = window.confirm(message);
-                resolve(result);
-            });
+        async function updateEmptyMessages() {
+            try {
+                const facilities = await serverAPI.getFacilities();
+                homeEmptyMessage.style.display = facilities.length === 0 ? 'block' : 'none';
+                adminEmptyMessage.style.display = facilities.length === 0 ? 'block' : 'none';
+            } catch (e) {
+                homeEmptyMessage.style.display = 'block';
+                adminEmptyMessage.style.display = 'block';
+            }
         }
 
-        // Tab switching logic
-        document.querySelectorAll('.nav-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
+        // Tab navigation
+        navTabs.forEach(tab => {
+            tab.addEventListener('click', async () => {
                 const tabId = tab.getAttribute('data-tab');
-                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                navTabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-                document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+                tabContents.forEach(content => content.classList.remove('active'));
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+                if (tabId === 'admin') await loadAdminGridData();
             });
         });
 
-        // --- App Initialization ---
-        document.addEventListener('DOMContentLoaded', () => {
-            addBtn.addEventListener('click', addFacility);
-            signIn();
+        // Connect button: validate GitHub access and load data
+        btnConnect.addEventListener('click', async () => {
+            const owner = ownerInput.value.trim();
+            const repo = repoInput.value.trim();
+            const path = pathInput.value.trim() || 'data/facilities.json';
+            const branch = branchInput.value.trim() || 'main';
+            const token = tokenInput.value.trim();
+            if (!owner || !repo || !token) { showNotification('Please fill owner, repo and token', 'error'); return; }
+            ghConfig = { owner, repo, path, branch, token };
+            // quick validation: try to get file (if 404 it's fine), or test repo access via repo endpoint
+            try {
+                // Check repo access
+                const testUrl = `https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`;
+                const res = await fetch(testUrl, { headers: getHeaders() });
+                if (!res.ok) {
+                    const txt = await res.text();
+                    ghConfig = null;
+                    throw new Error(`Cannot access repo: ${res.status} ${txt}`);
+                }
+                showNotification('Connected to GitHub', 'success');
+                await reloadAll();
+            } catch (e) {
+                console.error(e);
+                ghConfig = null;
+                showNotification('Failed to connect: check token and repo', 'error');
+            }
         });
+
+        // Clear configuration (only in-memory)
+        btnClear.addEventListener('click', () => {
+            ghConfig = null;
+            ownerInput.value = ''; repoInput.value = ''; pathInput.value = 'data/facilities.json'; branchInput.value = 'main'; tokenInput.value = '';
+            showNotification('Cleared GitHub configuration', 'success');
+            // clear UI lists
+            homeGridContainer.innerHTML = '';
+            adminGridContainer.innerHTML = '';
+            groupFilter.innerHTML = '';
+            homeEmptyMessage.style.display = 'block';
+            adminEmptyMessage.style.display = 'block';
+        });
+
+        // On load: don't auto-use localStorage for data; wait for user to connect
+        document.addEventListener('DOMContentLoaded', () => {
+            // Provide guidance in console
+            console.info('This app stores facility data in a GitHub repo file. Provide owner/repo/branch/path and a personal access token (PAT) with repo/public_repo scope.');
+            // initialize UI placeholders
+            setupGroupFilters();
+            updateEmptyMessages();
+        });
+
+        // Expose deleteFacility to global scope for backward compatibility (not required)
+        window.deleteFacility = async (id) => await deleteFacilityById(id);
 
     </script>
 </body>
